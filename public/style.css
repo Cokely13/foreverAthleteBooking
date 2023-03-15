@@ -19,3 +19,18 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.hour {
+  cursor: pointer;
+  padding: 10px;
+  margin: 2px;
+  background-color: #dff0d8;
+  border: 1px solid #d6e9c6;
+  display: inline-block;
+}
+
+.hour.booked {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  cursor: not-allowed;
+}
