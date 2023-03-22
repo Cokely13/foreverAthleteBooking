@@ -6,6 +6,7 @@ import Home from './components/Home';
 import BookingForm from './components/BookingForm';
 import Calendar from './components/Calendar';
 import BookingCalendar from './components/BookingCalendar';
+import MyCalendar from './components/MyCalendar';
 import {me} from './store'
 
 /**
@@ -26,6 +27,7 @@ class Routes extends Component {
             <Route path="/home" component={Home} />
             <Route path="/booking" component={BookingForm} />
             <Route path="/calendar" component={Calendar} />
+            <Route path="/mycalendar" component={MyCalendar} />
             <Route path="/test" component={BookingCalendar} />
             <Redirect to="/home" />
           </Switch>
