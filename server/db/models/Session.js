@@ -18,4 +18,4 @@ const Session = db.define('session', {
   }
 })
 
-module.exports = Result
+module.exports = Session
