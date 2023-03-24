@@ -1,9 +1,10 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('./db');
 
-const Result = sequelize.define('Result', {
+const { DataTypes } = require('sequelize');
+const db = require('../db');
+
+const Result = db.define('result', {
   duration: {
-    type: DataTypes.INTERVAL,
+    type: DataTypes.STRING,
     allowNull: false
   },
   date: {
@@ -16,4 +17,4 @@ const Result = sequelize.define('Result', {
   }
 });
 
-module.exports = Result
+module.exports = Result;
