@@ -9,9 +9,18 @@ function Results() {
   const {id} = useSelector((state) => state.auth )
   const results = useSelector((state) => state.allResults )
   const [selectedEvent, setSelectedEvent] = useState("All")
-  const sorted = results.sort((a, b) => (a.eventId -b.eventId || parseInt(a.time) - parseInt(b.time)))
+  // const sorted = results.sort((a, b) => (a.eventId -b.eventId || parseInt(a.time) - parseInt(b.time)))
 
-
+  const sorted = results
+  .map((result) => {
+    // Split duration into minutes and seconds components
+    const [minutes, seconds] = result.duration.split(":");
+    // Calculate total duration in seconds
+    const durationSeconds = parseInt(minutes) * 60 + parseInt(seconds);
+    // Add the durationSeconds property to the result object
+    return { ...result, durationSeconds };
+  })
+  .sort((a, b) => a.durationSeconds - b.durationSeconds);
 
 
   useEffect(() => {
@@ -48,21 +57,21 @@ function Results() {
 {/* <th scope="col">Handle</th> */}
 </tr>
 </thead>
-     {selectedEvent !== "All"  ? results.filter(result=>result.event == selectedEvent).map((result) => {
+     {selectedEvent !== "All"  ? sorted.filter(result=>result.event == selectedEvent).map((result) => {
         return (
           <tbody key={result.id}>
           <tr>
             <th scope="row">{result.id}</th>
             <th scope="row">{result.date}</th>
             <td>{result.event}</td>
-            <td><Link to={`/clients/${result.userId}`} >{result.userId} HAAA</Link></td>
+            <td><Link to={`/clients/${result.userId}`} >{result.userId}</Link></td>
             <td>{result.duration}</td>
           </tr>
         </tbody>
         )
 
       }) :
-      results.map((result) => {
+      sorted.map((result) => {
         return (
           <tbody key={result.id}>
           <tr>
