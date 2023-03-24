@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import { useSelector, useDispatch } from 'react-redux'
 import { Link, useParams, } from 'react-router-dom'
-import { createSession } from '../store/allSessionsStore';
+import { createSession, fetchSessions } from '../store/allSessionsStore';
+
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
@@ -25,8 +26,26 @@ const sessions = [
 const MyCalendar = () => {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [newSession, setNewSession] = useState(null);
+  const Sessions2 = useSelector((state) => state.allSessions )
   const {id} = useSelector((state) => state.auth )
   const dispatch = useDispatch()
+
+  console.log("sessions", Sessions2)
+  // console.log("date", new Date(2023, 2, 27, 5, 30))
+
+  const updatedSessions2 = Sessions2.map(session => {
+    return {
+      ...session,
+      start: moment(session.start).toDate(),
+      end: moment(session.end).toDate(),
+      title: session.userId
+    };
+  });
+
+  useEffect(() => {
+    dispatch(fetchSessions())
+    // Safe to add dispatch to the dependencies array
+  }, [])
 
   const handleSelectSlot = (event) => {
     setNewSession({
@@ -55,7 +74,7 @@ const MyCalendar = () => {
       <Calendar
         selectable
         localizer={localizer}
-        events={sessions}
+        events={updatedSessions2}
         defaultView="week"
         views={['week']}
         min={new Date(2023, 2, 27, 5, 30)}

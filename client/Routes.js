@@ -7,7 +7,10 @@ import BookingForm from './components/BookingForm';
 import Calendar from './components/Calendar';
 import BookingCalendar from './components/BookingCalendar';
 import MyCalendar from './components/MyCalendar';
+import Users from './components/Users';
+import UserDetail from './components/UserPage';
 import {me} from './store'
+
 
 /**
  * COMPONENT
@@ -24,11 +27,13 @@ class Routes extends Component {
       <div>
         {isLoggedIn ? (
           <Switch>
-            <Route path="/home" component={Home} />
-            <Route path="/booking" component={BookingForm} />
-            <Route path="/calendar" component={Calendar} />
-            <Route path="/mycalendar" component={MyCalendar} />
-            <Route path="/test" component={BookingCalendar} />
+            <Route exact path="/home" component={Home} />
+            <Route exact path="/clients" component={Users} />
+            <Route exact path="/clients/:userId" component={UserDetail}/>
+            <Route exact path="/booking" component={BookingForm} />
+            <Route exact path="/calendar" component={Calendar} />
+            <Route exact path="/mycalendar" component={MyCalendar} />
+            <Route exact path="/test" component={BookingCalendar} />
             <Redirect to="/home" />
           </Switch>
         ) : (
