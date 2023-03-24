@@ -8,7 +8,8 @@ import Calendar from './components/Calendar';
 import BookingCalendar from './components/BookingCalendar';
 import MyCalendar from './components/MyCalendar';
 import Users from './components/Users';
-import AddResult from './components/AddResult'
+import AddResult from './components/AddResult';
+import Results from './components/Results';
 import UserDetail from './components/UserPage';
 import {me} from './store'
 
@@ -30,6 +31,7 @@ class Routes extends Component {
           <Switch>
             <Route exact path="/home" component={Home} />
             <Route exact path="/addresult" component={AddResult} />
+            <Route exact path="/results" component={Results} />
             <Route exact path="/clients" component={Users} />
             <Route exact path="/clients/:userId" component={UserDetail}/>
             <Route exact path="/booking" component={BookingForm} />

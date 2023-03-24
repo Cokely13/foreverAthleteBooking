@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import TimePicker from 'react-time-picker';
+import { createResult } from '../store/allResultsStore';
 
 const AddResult = () => {
+  const { id } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const [event, setEvent] = useState('');
   const [date, setDate] = useState('');
-  const [duration, setDuration] = useState('');
+  const [minutes, setMinutes] = useState('');
+  const [seconds, setSeconds] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleEventChange = (e) => {
     setEvent(e.target.value);
@@ -15,8 +21,12 @@ const AddResult = () => {
     setDate(e.target.value);
   };
 
-  const handleDurationChange = (value) => {
-    setDuration(value);
+  const handleMinutesChange = (e) => {
+    setMinutes(e.target.value);
+  };
+
+  const handleSecondsChange = (e) => {
+    setSeconds(e.target.value);
   };
 
   const handleSubmit = (e) => {
@@ -32,30 +42,34 @@ const AddResult = () => {
       return;
     }
 
-    if (!duration) {
+    if (!minutes && !seconds) {
       setErrorMessage('Please Select Duration');
       return;
     }
 
     // Create a new result object with the input values
     const newResult = {
+      userId: id,
       event,
       date,
-      duration
+      duration: `${minutes}:${seconds}`,
     };
 
-    // TODO: Send the new result object to the server or add it to a store
+    dispatch(createResult(newResult));
 
-    // Clear the input fields
+    // Set the success message and clear the input fields
+    setSuccessMessage('Result added successfully!');
     setEvent('');
     setDate('');
-    setDuration('');
+    setMinutes('');
+    setSeconds('');
     setErrorMessage('');
   };
 
   return (
     <form onSubmit={handleSubmit}>
       {errorMessage && <p>{errorMessage}</p>}
+      {successMessage && <p>{successMessage}</p>}
       <div>
         <label htmlFor="event">Event:</label>
         <select id="event" value={event} onChange={handleEventChange}>
@@ -70,14 +84,25 @@ const AddResult = () => {
         <input type="date" id="date" value={date} onChange={handleDateChange} />
       </div>
       <div>
-        <label htmlFor="duration">Duration:</label>
-        <TimePicker
-          id="duration"
-          disableClock
-          clearIcon={null}
-          format="mm:ss"
-          value={duration}
-          onChange={handleDurationChange}
+        <label htmlFor="minutes">Duration:</label>
+        <input
+          type="number"
+          id="minutes"
+          min="0"
+          max="59"
+          value={minutes}
+          onChange={handleMinutesChange}
+          style={{ marginRight: '5px' }}
+        />
+        :
+        <input
+          type="number"
+          id="seconds"
+          min="0"
+          max="59"
+          value={seconds}
+          onChange={handleSecondsChange}
+          style={{ marginLeft: '5px' }}
         />
       </div>
       <button type="submit">Add Result</button>

@@ -6,13 +6,17 @@ import sessionsReducer  from './allSessionsStore'
 import singleSessionReducer from './singleSessionStore'
 import usersReducer from './allUsersStore'
 import singleUserReducer from './singleUserStore'
+import singleResultReducer from './singleResultStore'
+import resultsReducer from './allResultsStore'
 import auth from './auth'
 
 const reducer = combineReducers({ auth,
 allSessions: sessionsReducer,
 singleSession: singleSessionReducer,
 allUsers: usersReducer,
-singleUser: singleUserReducer,})
+singleUser: singleUserReducer,
+singleResult: singleResultReducer,
+allResults: resultsReducer})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
