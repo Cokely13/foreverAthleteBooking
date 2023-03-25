@@ -7,13 +7,13 @@ import SessionsList from './SessionsList'
 
 
 
-export default function UserDetail() {
+export default function Profile() {
   const dispatch = useDispatch()
   const {id} = useSelector((state) => state.auth )
   const { userId } = useParams();
   const [statusView, setStatusView] = useState();
   useEffect(() => {
-    dispatch(fetchSingleUser(userId))
+    dispatch(fetchSingleUser(id))
 
     // Safe to add dispatch to the dependencies array
   }, [])
@@ -33,7 +33,7 @@ export default function UserDetail() {
     <div>
       <div>
       <div className="text-center">
-      <div className="col"><h1 className="border rounded border-5  border-dark text-white-50 bg-dark text-center" style={{marginBottom: "10px", marginLeft: "auto", marginRight: "auto", width: "25rem"}}>{user.username}'s Page</h1></div>
+      <div className="col"><h1 className="border rounded border-5  border-dark text-white-50 bg-dark text-center" style={{marginBottom: "10px", marginLeft: "auto", marginRight: "auto", width: "25rem"}}>My Profile</h1></div>
     </div>
     <div className="text-center">
     {user.sessions ?<div># of Sessions: {user.sessions.length} </div> : <div>check</div>}

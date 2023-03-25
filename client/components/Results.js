@@ -23,6 +23,26 @@ function Results() {
   .sort((a, b) => a.durationSeconds - b.durationSeconds);
 
 
+  const renderResults = () => {
+    return sorted.map(result => {
+      // Convert the start property to a date object
+      const startDate = new Date(result.date);
+
+      // Format the date and time strings
+      const date = startDate.toLocaleDateString();
+
+
+      return (
+        <tr key={result.id}>
+          <td>{date}</td>
+          <td>{result.event}</td>
+          <td>{result.duration}</td>
+          <td>{result.userId}</td>
+        </tr>
+      );
+    });
+  };
+
   useEffect(() => {
     dispatch(fetchResults())
     // Safe to add dispatch to the dependencies array
@@ -47,16 +67,24 @@ function Results() {
               </div>
     {results ?
     <div style={{paddingLeft: "15px",paddingRight: "15px"}}>
-    <table className="table table-bordered  table-dark text-center">
+    {/* <table className="table table-bordered  table-dark text-center">
 <thead>
 <tr>
 <th scope="col">#</th>
 <th scope="col">Date</th>
 <th scope="col">Event</th>
 <th scope="col">Time</th>
-{/* <th scope="col">Handle</th> */}
 </tr>
-</thead>
+</thead> */}
+ <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Event</th>
+          <th>Time</th>
+          <th>UserId</th>
+        </tr>
+      </thead>
      {selectedEvent !== "All"  ? sorted.filter(result=>result.event == selectedEvent).map((result) => {
         return (
           <tbody key={result.id}>
@@ -71,20 +99,20 @@ function Results() {
         )
 
       }) :
-      sorted.map((result) => {
-        return (
-          <tbody key={result.id}>
-          <tr>
+
+          <tbody>
+          {/* <tr>
           <th scope="row">{result.id}</th>
           <th scope="row">{result.date}</th>
           <th scope="row"> <td>{result.event}</td></th>
             <td><Link to={`/clients/${result.userId}`}>{result.userId}</Link></td>
             <td>{(result.duration)}</td>
-          </tr>
+          </tr> */}
+          {renderResults()}
         </tbody>
-        )
 
-      }) }
+
+    }
                  </table>
 </div>: <div>NO Results</div>}
 </div>
