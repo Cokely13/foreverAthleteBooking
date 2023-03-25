@@ -3,6 +3,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import { useSelector, useDispatch } from 'react-redux'
 import { Link, useParams, } from 'react-router-dom'
 import { createSession, fetchSessions } from '../store/allSessionsStore';
+import ConfirmSessions from './ConfirmSessions';
 
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -119,6 +120,7 @@ const MyCalendar = () => {
           <button onClick={() => setSelectedSlot(null)}>Cancel</button>
         </div>
       )}
+      {id == 3 ? <ConfirmSessions/> :<div></div>}
     </div>
   );
       }
