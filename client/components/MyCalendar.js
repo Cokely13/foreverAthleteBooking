@@ -88,6 +88,7 @@ const MyCalendar = () => {
     dispatch(createSession(newSession));
     alert(`Session requested for ${newSession.start.toLocaleString()}`);
     setSelectedSlot(null);
+    setShowModal(false)
     setReload(!reload);
     setShowConfirmationPrompt(false); // Hide the confirmation prompt
   };
@@ -131,6 +132,7 @@ const handleSessionSubmit = (event) => {
   );
   alert(`Session requested for ${newSession.start.toLocaleString()}`);
   setSelectedSlot(null);
+  setShowModal(false)
   setReload(!reload);
   setShowConfirmationPrompt(false);
 };
@@ -181,6 +183,7 @@ const handleSessionSubmit = (event) => {
         isOpen={showModal}
         onRequestClose={() => setShowModal(false)}
         contentLabel="Confirm session request"
+        className="custom-modal"
       >
         <div>
           <p>Confirm session request:</p>

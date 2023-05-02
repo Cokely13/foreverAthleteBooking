@@ -34,3 +34,25 @@ form div {
   border-color: #ebccd1;
   cursor: not-allowed;
 }
+
+/* Center the modal */
+.ReactModal__Overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Style the modal content */
+.ReactModal__Content {
+  position: relative;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  margin: 0 auto;
+  max-width: 500px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
