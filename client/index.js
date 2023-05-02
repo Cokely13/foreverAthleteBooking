@@ -5,6 +5,9 @@ import {Router} from 'react-router-dom'
 import history from './history'
 import store from './store'
 import App from './App'
+import Modal from 'react-modal';
+
+Modal.setAppElement('#app');
 
 ReactDOM.render(
   <Provider store={store}>
