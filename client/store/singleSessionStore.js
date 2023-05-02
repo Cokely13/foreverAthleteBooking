@@ -28,13 +28,13 @@ export const fetchSession = (id) => {
   };
 };
 
-export const updateSingleSession = (session, history) => {
+export const updateSingleSession = (session) => {
   return async (dispatch) => {
     try {
         await axios.put(`/api/sessions/${session.id}`, session);
         const { data: sessionData } = await axios.get(`/api/sessions/${session.id}`);
         dispatch(_updateSingleSession(sessionData));
-        history.push(`/sessions/${session.id}`)
+        // history.push(`/sessions/${session.id}`)
       }
      catch (error) {
       console.log("SESSION", session)

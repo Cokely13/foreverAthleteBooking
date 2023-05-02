@@ -21,7 +21,7 @@ export default function Profile() {
 
 
   const user = useSelector((state) => state.singleUser)
-  console.log("user", user.sessions)
+
 
   const handleCLick = (event) => {
     event.preventDefault()

@@ -5,6 +5,8 @@ import { Link, useParams, } from 'react-router-dom'
 import Select from 'react-select';
 import { createSession, fetchSessions } from '../store/allSessionsStore';
 import Modal from 'react-modal';
+import {fetchSingleUser} from '../store/singleUserStore'
+import { updateSingleSession } from '../store/singleSessionStore';
 import ConfirmSessions from './ConfirmSessions';
 
 import moment from 'moment';
@@ -19,9 +21,18 @@ const MyCalendar = () => {
   const [numConfirmations, setNumConfirmations] = useState(0);
   const Sessions2 = useSelector((state) => state.allSessions )
   const [showModal, setShowModal] = useState(false);
+  const [showStatusModal, setShowStatusModal] = useState(false);
   const {id} = useSelector((state) => state.auth )
+  const user = useSelector((state) => state.singleUser)
+  const [sessionStatus, setSessionStatus] = useState("pending");
+  const [sessionId, setSessionId] = useState(null);
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    dispatch(fetchSingleUser(id))
+
+    // Safe to add dispatch to the dependencies array
+  }, [])
 
   const updatedSessions2 = Sessions2.map(session => {
     let color;
@@ -52,6 +63,27 @@ const MyCalendar = () => {
   useEffect(() => {
     dispatch(fetchSessions())
   }, [reload])
+
+  const handleSelectEvent = (event) => {
+    // Check if the logged in user is an admin
+    if (!user.admin) {
+      return;
+    }
+
+    // Search for a session with the same start and end time as the selected event
+    const session = Sessions2.find((session) => {
+      return moment(session.start).isSame(event.start) && moment(session.end).isSame(event.end);
+    });
+
+    // If a session is found, show the modal with the dropdown menu
+    if (session) {
+      // Set the default value of the dropdown to "pending"
+      setSessionStatus("pending");
+      setSessionDetails(session)
+      setSessionId(session.id);
+      setShowStatusModal(true);
+    }
+  };
 
 
   const handleSelectSlot = (event) => {
@@ -84,22 +116,9 @@ const MyCalendar = () => {
     setShowModal(true); // Show the modal
   };
 
-  const handleConfirmSession = () => {
-    dispatch(createSession(newSession));
-    alert(`Session requested for ${newSession.start.toLocaleString()}`);
-    setSelectedSlot(null);
-    setShowModal(false)
-    setReload(!reload);
-    setShowConfirmationPrompt(false); // Hide the confirmation prompt
-  };
 
   // Form fields for specifying the session details
-  const [sessionDetails, setSessionDetails] = useState({
-    title: "",
-    description: "",
-    location: "",
-    guests: "",
-  });
+  const [sessionDetails, setSessionDetails] = useState();
 
   // Flag for showing/hiding the confirmation prompt
 const [showConfirmationPrompt, setShowConfirmationPrompt] = useState(false);
@@ -107,16 +126,39 @@ const [showConfirmationPrompt, setShowConfirmationPrompt] = useState(false);
 // Options for the dropdown menu of starting times
 const [timeOptions, setTimeOptions] = useState([]);
 
-// Event handler for updating the session details form fields
-const handleSessionDetailsChange = (event) => {
-  const { name, value } = event.target;
-  setSessionDetails((prevState) => ({ ...prevState, [name]: value }));
-};
+
 
 // Event handler for updating the newSession state with the selected start time
 const handleTimeOptionChange = (event) => {
-  setNewSession((prevState) => ({ ...prevState, start: event.value }));
+  setNewSession((prevState) => ({
+    ...prevState,
+    start: event.value,
+    end: moment(event.value).add(1, 'hours').toDate()
+  }));
 };
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+
+
+const handleSubmitStatus = async () => {
+  try {
+    // Update the confirmed property of the session based on the selected value
+
+    console.log("event value", sessionStatus)
+    console.log("sessionId", sessionId)
+    console.log("Sessuin check", sessionDetails)
+    sessionDetails.confirmed = sessionStatus
+    await dispatch(updateSingleSession(sessionDetails));
+    setShowStatusModal(false);
+    setReload(!reload);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 
 const handleSessionSubmit = (event) => {
   event.preventDefault();
@@ -177,7 +219,27 @@ const handleSessionSubmit = (event) => {
         timeslots={1}
         eventPropGetter={eventStyleGetter}
         onSelectSlot={handleSelectSlot}
+        onSelectEvent={handleSelectEvent} // Add this line
       />
+      {user.admin && showStatusModal && (
+        <Modal
+        isOpen={showStatusModal}
+        onRequestClose={() => setShowStatusModal(false)}
+        contentLabel="Change session status"
+        className="custom-modal"
+      >
+        <div>
+          <p>Change session status:</p>
+         <Select
+  options={[    { value: "pending", label: "Pending" },    { value: "confirmed", label: "Confirmed" },    { value: "denied", label: "Denied" },  ]}
+  defaultValue={{ value: sessionStatus, label: capitalize(sessionStatus) }}
+  onChange={(option) => setSessionStatus(option.value)}
+/>
+          <button onClick={handleSubmitStatus}>Submit</button>
+          <button onClick={() => setShowStatusModal(false)}>Cancel</button>
+        </div>
+      </Modal>
+      )}
       {showModal && (
         <Modal
         isOpen={showModal}
@@ -196,22 +258,6 @@ const handleSessionSubmit = (event) => {
             />
           </label>
           <form onSubmit={handleSessionSubmit}>
-            <label>
-              Title:
-              <input type="text" name="title" onChange={handleSessionDetailsChange} />
-            </label>
-            <label>
-              Description:
-              <input type="text" name="description" onChange={handleSessionDetailsChange} />
-            </label>
-            <label>
-              Location:
-              <input type="text" name="location" onChange={handleSessionDetailsChange} />
-            </label>
-            <label>
-              Guests:
-              <input type="text" name="guests" onChange={handleSessionDetailsChange} />
-            </label>
             <button type="submit">Confirm</button>
           </form>
           <button onClick={() => setShowModal(false)}>Cancel</button>
