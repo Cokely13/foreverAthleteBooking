@@ -1,5 +1,6 @@
 import React, {Component, Fragment} from 'react'
 import {connect} from 'react-redux'
+import { useSelector} from 'react-redux'
 import {withRouter, Route, Switch, Redirect} from 'react-router-dom'
 import { Login, Signup } from './components/AuthForm';
 import Home from './components/Home';
@@ -26,10 +27,12 @@ class Routes extends Component {
 
   render() {
     const {isLoggedIn} = this.props
-
+    const {isAdmin} = this.props
+   console.log("hey", isAdmin)
     return (
       <div>
-        {isLoggedIn ? (
+        {isLoggedIn ?
+        isLoggedIn & isAdmin  ? (
           <Switch>
             <Route exact path="/home" component={Home} />
             <Route exact path="/profile" component={Profile} />
@@ -44,7 +47,20 @@ class Routes extends Component {
             <Route exact path="/test" component={BookingCalendar} />
             <Redirect to="/home" />
           </Switch>
-        ) : (
+        ) : <Switch>
+        <Route exact path="/home" component={Home} />
+        <Route exact path="/profile" component={Profile} />
+        {/* <Route exact path="/addresult" component={AddResult} /> */}
+        <Route exact path="/results" component={Results} />
+        {/* <Route exact path="/clients" component={Users} />
+        <Route exact path="/confirm" component={ConfirmSessions} /> */}
+        {/* <Route exact path="/clients/:userId" component={UserDetail}/> */}
+        <Route exact path="/booking" component={BookingForm} />
+        <Route exact path="/calendar" component={Calendar} />
+        <Route exact path="/mycalendar" component={MyCalendar} />
+        <Route exact path="/test" component={BookingCalendar} />
+        <Redirect to="/home" />
+      </Switch>  : (
           <Switch>
             <Route path='/' exact component={ Login } />
             <Route path="/login" component={Login} />
@@ -63,7 +79,8 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.auth that has a truthy id.
     // Otherwise, state.auth will be an empty object, and state.auth.id will be falsey
-    isLoggedIn: !!state.auth.id
+    isLoggedIn: !!state.auth.id,
+    isAdmin: state.auth.admin
   }
 }
 
