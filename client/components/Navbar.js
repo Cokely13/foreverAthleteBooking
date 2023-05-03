@@ -27,6 +27,7 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
       <Link to="/home">Home</Link>
       <Link to="/profile">Profile</Link>
       <Link to="/results">Results</Link>
+      <Link to="/addresult">AddResult</Link>
       <Link to="/mycalendar">MyCalendar</Link>
       <a href="#" onClick={handleClick}>
         Logout

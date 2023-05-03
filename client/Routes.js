@@ -50,11 +50,8 @@ class Routes extends Component {
         ) : <Switch>
         <Route exact path="/home" component={Home} />
         <Route exact path="/profile" component={Profile} />
-        {/* <Route exact path="/addresult" component={AddResult} /> */}
+        <Route exact path="/addresult" component={AddResult} />
         <Route exact path="/results" component={Results} />
-        {/* <Route exact path="/clients" component={Users} />
-        <Route exact path="/confirm" component={ConfirmSessions} /> */}
-        {/* <Route exact path="/clients/:userId" component={UserDetail}/> */}
         <Route exact path="/booking" component={BookingForm} />
         <Route exact path="/calendar" component={Calendar} />
         <Route exact path="/mycalendar" component={MyCalendar} />
