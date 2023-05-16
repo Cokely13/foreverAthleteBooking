@@ -12,6 +12,7 @@ import ConfirmSessions from './ConfirmSessions';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
+
 const localizer = momentLocalizer(moment);
 
 const MyCalendar = () => {
@@ -41,7 +42,7 @@ const MyCalendar = () => {
         color = 'yellow';
         break;
       case 'confirmed':
-        color = 'blue';
+        color = 'green';
         break;
       case 'denied':
         color = 'red';
@@ -147,9 +148,6 @@ const handleSubmitStatus = async () => {
   try {
     // Update the confirmed property of the session based on the selected value
 
-    console.log("event value", sessionStatus)
-    console.log("sessionId", sessionId)
-    console.log("Sessuin check", sessionDetails)
     sessionDetails.confirmed = sessionStatus
     await dispatch(updateSingleSession(sessionDetails));
     setShowStatusModal(false);
@@ -214,53 +212,100 @@ const handleSessionSubmit = (event) => {
         timeslots={1}
         eventPropGetter={eventStyleGetter}
         onSelectSlot={handleSelectSlot}
-        onSelectEvent={handleSelectEvent} // Add this line
+        onSelectEvent={handleSelectEvent}
+        className="my-4 p-3 border rounded"
       />
       {user.admin && showStatusModal && (
         <Modal
-        isOpen={showStatusModal}
-        onRequestClose={() => setShowStatusModal(false)}
-        contentLabel="Change session status"
-        className="custom-modal"
-      >
-        <div>
-          <p>Change session status:</p>
-         <Select
-  options={[    { value: "pending", label: "Pending" },    { value: "confirmed", label: "Confirmed" },    { value: "denied", label: "Denied" },  ]}
-  defaultValue={{ value: sessionStatus, label: capitalize(sessionStatus) }}
-  onChange={(option) => setSessionStatus(option.value)}
-/>
-          <button onClick={handleSubmitStatus}>Submit</button>
-          <button onClick={() => setShowStatusModal(false)}>Cancel</button>
-        </div>
-      </Modal>
+          isOpen={showStatusModal}
+          onRequestClose={() => setShowStatusModal(false)}
+          contentLabel="Change session status"
+          className="custom-modal"
+        >
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Change session status:</h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={() => setShowStatusModal(false)}
+              ></button>
+            </div>
+            <div className="modal-body">
+              <Select
+                options={[
+                  { value: "pending", label: "Pending" },
+                  { value: "confirmed", label: "Confirmed" },
+                  { value: "denied", label: "Denied" },
+                ]}
+                defaultValue={{ value: sessionStatus, label: capitalize(sessionStatus) }}
+                onChange={(option) => setSessionStatus(option.value)}
+              />
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-primary" onClick={handleSubmitStatus}>
+                Submit
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+                onClick={() => setShowStatusModal(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </Modal>
       )}
       {showModal && (
         <Modal
-        isOpen={showModal}
-        onRequestClose={() => setShowModal(false)}
-        contentLabel="Confirm session request"
-        className="custom-modal"
-      >
-        <div>
-          <p>Confirm session request:</p>
-          <label>
-            Starting time:
-            <Select
-              options={timeOptions}
-              defaultValue={{ label: selectedSlot.toLocaleString(), value: selectedSlot }}
-              onChange={handleTimeOptionChange}
-            />
-          </label>
-          <form onSubmit={handleSessionSubmit}>
-            <button type="submit">Confirm</button>
-          </form>
-          <button onClick={() => setShowModal(false)}>Cancel</button>
-        </div>
-      </Modal>
-)}
-</div>
-);
+          isOpen={showModal}
+          onRequestClose={() => setShowModal(false)}
+          contentLabel="Confirm session request"
+          className="custom-modal"
+        >
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Confirm session request:</h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={() => setShowModal(false)}
+              ></button>
+            </div>
+            <div className="modal-body">
+              <label className="form-label">
+                Starting time:
+                <Select
+                  options={timeOptions}
+                  defaultValue={{ label: selectedSlot.toLocaleString(), value: selectedSlot }}
+                  onChange={handleTimeOptionChange}
+                />
+              </label>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-primary" onClick={handleSessionSubmit}>
+                Confirm
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
+    </div>
+  );
   }
 
   export default MyCalendar

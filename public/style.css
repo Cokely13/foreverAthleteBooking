@@ -1,9 +1,22 @@
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --success-color: #28a745;
+  --info-color: #17a2b8;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
+  --light-color: #f2f2f2;
+  --dark-color: #343a40;
+}
+
 body {
   font-family: sans-serif;
+  background-color: var(--light-color);
 }
 
 a {
   text-decoration: none;
+  color: var(--primary-color);
 }
 
 label {
@@ -13,6 +26,55 @@ label {
 nav a {
   display: inline-block;
   margin: 1em;
+  color: var(--light-color);
+  background-color: var(--primary-color);
+  padding: 0.5em 1em;
+  border-radius: 0.25em;
+}
+
+nav a:hover {
+  background-color: var(--dark-color);
+}
+
+.home {
+  margin: 30px;
+}
+
+.home h3 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.home p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.navbar {
+  background-color: #343a40;
+
+  color: #fff;
+}
+
+.navbar h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.navbar a {
+  color: #fff;
+  display: inline-block;
+  margin: 1em;
+  padding: 0.5em 1em;
+  border-radius: 0.25em;
+  text-decoration: none;
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
 }
 
 form div {
@@ -24,14 +86,15 @@ form div {
   cursor: pointer;
   padding: 10px;
   margin: 2px;
-  background-color: #dff0d8;
-  border: 1px solid #d6e9c6;
+  background-color: var(--success-color);
+  border: 1px solid var(--success-color);
   display: inline-block;
+  color: var(--light-color);
 }
 
 .hour.booked {
-  background-color: #f2dede;
-  border-color: #ebccd1;
+  background-color: var(--danger-color);
+  border-color: var(--danger-color);
   cursor: not-allowed;
 }
 
@@ -52,7 +115,52 @@ form div {
   margin: 0 auto;
   max-width: 500px;
   padding: 20px;
-  background-color: white;
+  background-color: var(--light-color);
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+
+.rbc-event {
+  border: 3px solid #ccc !important;
+}
+
+.rbc-toolbar-label {
+  font-size: 28px !important;
+  text-align: center !important;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: bold !important;
+}
+
+/* Add a thicker border to the entire calendar grid */
+/* .rbc-month-view {
+  border: 10px solid black!important;
+} */
+
+/* Add a thicker border to the day cells
+.rbc-month-view .rbc-day-bg {
+  border: 10px solid black !important;
+} */
+
+/* .rbc-time-header.rbc-time-header-gutter {
+  border-color: #333 !important;
+  border-width: 20px !important;
+} */
+
+
+/* .rbc-timeslot-group {
+  border-color: black;
+  border-width: 20px;
+} */
+
+/* .rbc-timeslot-group {
+  border-color: black !important;
+  border-width: 2px !important;
+} */
+
+.rbc-time-view,
+.rbc-day-view {
+  border: 2px solid black !important;
+}
+
+
