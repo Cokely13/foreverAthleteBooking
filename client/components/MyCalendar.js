@@ -29,6 +29,9 @@ const MyCalendar = () => {
   const [sessionId, setSessionId] = useState(null);
   const dispatch = useDispatch()
 
+
+
+
   useEffect(() => {
     dispatch(fetchSingleUser(id))
 
@@ -52,11 +55,14 @@ const MyCalendar = () => {
         break;
     }
 
+    console.log("user", user)
+    console.log("sessions", Sessions2)
+
     return {
       ...session,
+      title: session.user.username,
       start: moment(session.start).toDate(),
       end: moment(session.end).toDate(),
-      title: session.userId,
       color: color
     };
   });
@@ -111,6 +117,7 @@ const MyCalendar = () => {
       start: event.start,
       end: event.end,
       userId: id,
+      // userName: user.username
     });
     setSelectedSlot(event.start);
     setTimeOptions(hourOptions); // Update the dropdown menu options
