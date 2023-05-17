@@ -1,77 +1,39 @@
-// import React from 'react'
-// import { Link, useParams } from 'react-router-dom'
-// import { useSelector, useDispatch } from 'react-redux'
-// import { useEffect, useState } from 'react'
-// import {fetchSingleUser} from '../store/singleUserStore'
-// import SessionsList from './SessionsList'
-
-
-
-// export default function UpcomingSession() {
-//   const dispatch = useDispatch()
-//   const {id} = useSelector((state) => state.auth )
-//   const { userId } = useParams();
-//   const [statusView, setStatusView] = useState();
-//   const [nextSession, setNextSession] = useState(null);
-
-//   useEffect(() => {
-//     dispatch(fetchSingleUser(id))
-
-//     // Safe to add dispatch to the dependencies array
-//   }, [])
-
-
-
-//   const user = useSelector((state) => state.singleUser)
-
-
-//   useEffect(() => {
-//     if (user.sessions && user.sessions.length > 0) {
-//       const currentDate = new Date();
-//       const sessionsAfterCurrentDate = user.sessions.filter(session => new Date(session.start) > currentDate);
-//       const sortedSessions = sessionsAfterCurrentDate.sort((a, b) => new Date(a.start) - new Date(b.start));
-
-//       if (sortedSessions.length > 0) {
-//         setNextSession(sortedSessions[0].start);
-//       }
-//     }
-//   }, [user.sessions]);
-
-//   console.log('nextSession', nextSession);
-
-
-//   const handleCLick = (event) => {
-//     event.preventDefault()
-//     setStatusView(1)
-//   }
-
-
-//   console.log("user", user)
-
-
-//   return (
-//     <div>
-//       <div>
-//     <div className="text-center">
-//       <h1>Next Session:</h1>
-//     {user.sessions ? <div>{nextSession ? new Date(nextSession).toLocaleString('en-US', { dateStyle: 'long', timeStyle: 'short' }) : ''}</div> : <div>check</div>}
-//     </div>
-//     </div>
-
-//     </div>
-
-// )}
-
-
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSingleUser } from '../store/singleUserStore';
+import Modal from 'react-modal';
+
+// CSS styles for the modal
+const modalStyles = {
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    zIndex: 1000
+  },
+  content: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    maxWidth: '400px',
+    margin: '0 auto',
+    padding: '20px',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+    backgroundColor: '#fff',
+    outline: 'none',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    textAlign: 'center'
+  }
+};
 
 export default function UpcomingSession() {
   const dispatch = useDispatch();
   const { id } = useSelector((state) => state.auth);
   const [nextSession, setNextSession] = useState(null);
   const [countdown, setCountdown] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     dispatch(fetchSingleUser(id));
@@ -111,6 +73,7 @@ export default function UpcomingSession() {
           setCountdown(`${days}d ${hours}h ${minutes}m ${seconds}s`);
         } else {
           setCountdown(null);
+          setShowModal(true);
         }
       }, 1000);
 
@@ -119,6 +82,11 @@ export default function UpcomingSession() {
       };
     }
   }, [nextSession]);
+
+  const handleModalClose = () => {
+    setShowModal(false);
+    window.location.reload(); // Reload the page
+  };
 
   console.log('nextSession', nextSession);
   console.log('countdown', countdown);
@@ -144,6 +112,11 @@ export default function UpcomingSession() {
           )}
         </div>
       </div>
+
+      <Modal isOpen={showModal} style={modalStyles} ariaHideApp={false}>
+        <h2>SESSION NOW!</h2>
+        <button onClick={handleModalClose}>Okay</button>
+      </Modal>
     </div>
   );
 }
