@@ -23,7 +23,7 @@ const MyCalendar = () => {
   const Sessions2 = useSelector((state) => state.allSessions )
   const [showModal, setShowModal] = useState(false);
   const [showStatusModal, setShowStatusModal] = useState(false);
-  const {id} = useSelector((state) => state.auth )
+  const {id, admin} = useSelector((state) => state.auth )
   const user = useSelector((state) => state.singleUser)
   const [sessionStatus, setSessionStatus] = useState("pending");
   const [sessionId, setSessionId] = useState(null);
@@ -237,12 +237,12 @@ moment(session.start).isSame(moment(), 'week')).filter((session) => session.conf
         onSelectEvent={handleSelectEvent}
         className="my-4 p-3 border rounded"
       />
-         <div style={{ textAlign: 'center', marginTop: '10px' }}>
+   {user.admin ? <div style={{ textAlign: 'center', marginTop: '10px' }}>
       <h3>Total Sessions This Week: {weekSessionsCount}</h3>
       <h3>Pending Sessions This Week: {pendingSessionCount}</h3>
       <h3>Confirmed Sessions This Week: {confirmedSessionCount}</h3>
       <h3>Denied Sessions This Week: {deniedSessionCount}</h3>
-    </div>
+    </div> : <div>NOT AN ADMIN PAL! </div>}
       {user.admin && showStatusModal && (
         <Modal
           isOpen={showStatusModal}
