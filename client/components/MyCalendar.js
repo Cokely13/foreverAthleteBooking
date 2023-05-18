@@ -7,6 +7,7 @@ import { createSession, fetchSessions } from '../store/allSessionsStore';
 import Modal from 'react-modal';
 import {fetchSingleUser} from '../store/singleUserStore'
 import { updateSingleSession } from '../store/singleSessionStore';
+import { useHistory } from 'react-router-dom';
 import ConfirmSessions from './ConfirmSessions';
 
 import moment from 'moment';
@@ -39,6 +40,33 @@ const MyCalendar = () => {
   }, [])
 
 
+  // const updatedSessions2 = Sessions2.map(session => {
+  //   let color;
+  //   switch (session.confirmed) {
+  //     case 'pending':
+  //       color = 'yellow';
+  //       break;
+  //     case 'confirmed':
+  //       color = 'green';
+  //       break;
+  //     case 'denied':
+  //       color = 'red';
+  //       break;
+  //     default:
+  //       color = 'gray';
+  //       break;
+  //   }
+
+
+  //   return {
+  //     ...session,
+  //     title: session.user.username,
+  //     start: moment(session.start).toDate(),
+  //     end: moment(session.end).toDate(),
+  //     color: color
+  //   };
+  // });
+
   const updatedSessions2 = Sessions2.map(session => {
     let color;
     switch (session.confirmed) {
@@ -56,15 +84,17 @@ const MyCalendar = () => {
         break;
     }
 
+    const title = session.user && session.user.username ? session.user.username : '';
 
     return {
       ...session,
-      title: session.user.username,
+      title,
       start: moment(session.start).toDate(),
       end: moment(session.end).toDate(),
-      color: color
+      color
     };
   });
+
 
   useEffect(() => {
     dispatch(fetchSessions())
@@ -171,7 +201,7 @@ const handleSessionSubmit = (event) => {
       ...newSession,
     })
   );
-  alert(`Session requested for ${newSession.start.toLocaleString()}`);
+  // alert(`Session requested for ${newSession.start.toLocaleString()}`);
   setSelectedSlot(null);
   setShowModal(false)
   setReload(!reload);
@@ -219,6 +249,19 @@ moment(session.start).isSame(moment(), 'week')).filter((session) => session.conf
 const confirmedSessionCount = (updatedSessions2.filter((session) =>
 moment(session.start).isSame(moment(), 'week')).filter((session) => session.confirmed == 'confirmed')).length
 
+console.log("pending", updatedSessions2)
+
+const mySessions = (updatedSessions2.filter((session) =>
+moment(session.start).isSame(moment(), 'week')).filter((session) => session.userId == id)).length
+
+const mySessionsConfirmed = ((updatedSessions2.filter((session) =>
+moment(session.start).isSame(moment(), 'week')).filter((session) => session.confirmed == 'confirmed')).filter((session) => session.userId == id)).length
+
+const mySessionsPending = ((updatedSessions2.filter((session) =>
+moment(session.start).isSame(moment(), 'week')).filter((session) => session.confirmed == 'pending')).filter((session) => session.userId == id)).length
+
+const mySessionsDenied = ((updatedSessions2.filter((session) =>
+moment(session.start).isSame(moment(), 'week')).filter((session) => session.confirmed == 'denied')).filter((session) => session.userId == id)).length
 
   return (
     <div>
@@ -242,7 +285,10 @@ moment(session.start).isSame(moment(), 'week')).filter((session) => session.conf
       <h3>Pending Sessions This Week: {pendingSessionCount}</h3>
       <h3>Confirmed Sessions This Week: {confirmedSessionCount}</h3>
       <h3>Denied Sessions This Week: {deniedSessionCount}</h3>
-    </div> : <div>NOT AN ADMIN PAL! </div>}
+    </div> : <div><h3>Total Sessions This Week: {mySessions}</h3>
+    <h3>My Pending Sessions This Week: {mySessionsPending}</h3>
+    <h3>My Denied Sessions This Week: {mySessionsDenied}</h3>
+    <h3>My Confirmed Sessions This Week: {mySessionsConfirmed}</h3></div>}
       {user.admin && showStatusModal && (
         <Modal
           isOpen={showStatusModal}
