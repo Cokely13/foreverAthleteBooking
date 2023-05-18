@@ -14,6 +14,7 @@ import Results from './components/Results';
 import UserDetail from './components/UserPage';
 import Profile from './components/Profile';
 import ConfirmSessions from './components/ConfirmSessions';
+import Records from './components/Records';
 import {me} from './store'
 
 
@@ -52,6 +53,7 @@ class Routes extends Component {
         <Route exact path="/profile" component={Profile} />
         <Route exact path="/addresult" component={AddResult} />
         <Route exact path="/results" component={Results} />
+        <Route exact path="/records" component={Records} />
         <Route exact path="/booking" component={BookingForm} />
         <Route exact path="/calendar" component={Calendar} />
         <Route exact path="/mycalendar" component={MyCalendar} />

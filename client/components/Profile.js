@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import {fetchSingleUser} from '../store/singleUserStore'
 import SessionsList from './SessionsList'
+import MyResults from './MyResults'
 
 
 
@@ -35,6 +36,7 @@ export default function Profile() {
       <div className="text-center">
       <div className="col"><h1 className="border rounded border-5  border-dark text-white-50 bg-dark text-center" style={{marginBottom: "10px", marginLeft: "auto", marginRight: "auto", width: "25rem"}}>My Profile</h1></div>
     </div>
+    <MyResults/>
     <div className="text-center">
     {user.sessions ?<div># of Sessions: {user.sessions.length} </div> : <div>check</div>}
     </div>
