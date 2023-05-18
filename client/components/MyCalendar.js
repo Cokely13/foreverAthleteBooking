@@ -285,7 +285,7 @@ moment(session.start).isSame(moment(), 'week')).filter((session) => session.conf
       <h3>Pending Sessions This Week: {pendingSessionCount}</h3>
       <h3>Confirmed Sessions This Week: {confirmedSessionCount}</h3>
       <h3>Denied Sessions This Week: {deniedSessionCount}</h3>
-    </div> : <div><h3>Total Sessions This Week: {mySessions}</h3>
+    </div> : <div style={{ textAlign: 'center', marginTop: '10px' }}><h3>Total Sessions This Week: {mySessions}</h3>
     <h3>My Pending Sessions This Week: {mySessionsPending}</h3>
     <h3>My Denied Sessions This Week: {mySessionsDenied}</h3>
     <h3>My Confirmed Sessions This Week: {mySessionsConfirmed}</h3></div>}

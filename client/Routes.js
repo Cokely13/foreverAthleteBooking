@@ -15,6 +15,7 @@ import UserDetail from './components/UserPage';
 import Profile from './components/Profile';
 import ConfirmSessions from './components/ConfirmSessions';
 import Records from './components/Records';
+import MySessions from './components/MySessions';
 import {me} from './store'
 
 
@@ -46,6 +47,7 @@ class Routes extends Component {
             <Route exact path="/calendar" component={Calendar} />
             <Route exact path="/mycalendar" component={MyCalendar} />
             <Route exact path="/test" component={BookingCalendar} />
+            <Route exact path="/sessions" component={MySessions} />
             <Redirect to="/home" />
           </Switch>
         ) : <Switch>
@@ -58,6 +60,7 @@ class Routes extends Component {
         <Route exact path="/calendar" component={Calendar} />
         <Route exact path="/mycalendar" component={MyCalendar} />
         <Route exact path="/test" component={BookingCalendar} />
+        <Route exact path="/sessions" component={MySessions} />
         <Redirect to="/home" />
       </Switch>  : (
           <Switch>
