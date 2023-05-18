@@ -38,6 +38,7 @@ const MyCalendar = () => {
     // Safe to add dispatch to the dependencies array
   }, [])
 
+
   const updatedSessions2 = Sessions2.map(session => {
     let color;
     switch (session.confirmed) {
@@ -55,8 +56,6 @@ const MyCalendar = () => {
         break;
     }
 
-    console.log("user", user)
-    console.log("sessions", Sessions2)
 
     return {
       ...session,
@@ -205,6 +204,22 @@ const handleSessionSubmit = (event) => {
     };
   };
 
+  const weekSessionsCount = updatedSessions2.filter((session) =>
+  moment(session.start).isSame(moment(), 'week')
+).length;
+
+
+
+const pendingSessionCount = (updatedSessions2.filter((session) =>
+moment(session.start).isSame(moment(), 'week')).filter((session) => session.confirmed == 'pending')).length
+
+const deniedSessionCount = (updatedSessions2.filter((session) =>
+moment(session.start).isSame(moment(), 'week')).filter((session) => session.confirmed == 'denied')).length
+
+const confirmedSessionCount = (updatedSessions2.filter((session) =>
+moment(session.start).isSame(moment(), 'week')).filter((session) => session.confirmed == 'confirmed')).length
+
+
   return (
     <div>
       <Calendar
@@ -222,6 +237,12 @@ const handleSessionSubmit = (event) => {
         onSelectEvent={handleSelectEvent}
         className="my-4 p-3 border rounded"
       />
+         <div style={{ textAlign: 'center', marginTop: '10px' }}>
+      <h3>Total Sessions This Week: {weekSessionsCount}</h3>
+      <h3>Pending Sessions This Week: {pendingSessionCount}</h3>
+      <h3>Confirmed Sessions This Week: {confirmedSessionCount}</h3>
+      <h3>Denied Sessions This Week: {deniedSessionCount}</h3>
+    </div>
       {user.admin && showStatusModal && (
         <Modal
           isOpen={showStatusModal}
