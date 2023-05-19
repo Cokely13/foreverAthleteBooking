@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { VictoryLine, VictoryChart, VictoryAxis, VictoryLegend } from 'victory';
 
@@ -12,15 +11,12 @@ function SessionsLineGraph({ sessions, users }) {
     ];
     const user = users.find((user) => user.id == userId);
 
-
     return {
-      label: `User ${user?.username || 'Unknown' }`,
+      label: `${user?.username || 'Unknown'}`,
       data,
       color: `hsl(${index * (360 / Object.keys(sessions).length)}, 100%, 50%)`,
     };
   });
-
-
 
   const legendData = datasets.map((dataset) => ({
     name: dataset.label,
@@ -28,21 +24,20 @@ function SessionsLineGraph({ sessions, users }) {
   }));
 
   return (
-    <div>
-      <h2>Sessions Line Graph</h2>
-      <VictoryChart>
+    <div style={{ margin: '50px' }}>
+      <VictoryChart height={250} style={{ margin: '20px auto' }}>
+      <VictoryLegend
+        x={60}
+        y={0}
+        title="Users"
+        centerTitle
+        orientation="horizontal"
+        gutter={20}
+        style={{ border: { stroke: 'black' }, title: { fontSize: 12 },  margintop: '20px' }}
+        data={legendData}
+      />
         <VictoryAxis tickValues={['Two Weeks Ago', 'Last Week', 'This Week', 'Next Week']} />
         <VictoryAxis dependentAxis domain={[1, 15]} />
-        <VictoryLegend
-          x={50}
-          y={0}
-          title="Users"
-          centerTitle
-          orientation="horizontal"
-          gutter={20}
-          style={{ border: { stroke: 'black' }, title: { fontSize: 12 } }}
-          data={legendData}
-        />
         {datasets.map((dataset) => (
           <VictoryLine key={dataset.label} data={dataset.data} style={{ data: { stroke: dataset.color } }} />
         ))}
@@ -52,3 +47,5 @@ function SessionsLineGraph({ sessions, users }) {
 }
 
 export default SessionsLineGraph;
+
+
