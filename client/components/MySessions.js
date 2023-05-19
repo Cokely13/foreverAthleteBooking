@@ -1,84 +1,82 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSingleUser } from '../store/singleUserStore';
 import moment from 'moment';
-// import SessionsLineGraph from './SessionsLineGraph';
-import SessionsLineGraph from './SessionsLineGraph'
+import SessionsLineGraph from './SessionsLineGraph';
+import { fetchSessions } from '../store/allSessionsStore';
+import { fetchUsers } from '../store/allUsersStore';
 
 function MySessions() {
   const dispatch = useDispatch();
   const { id } = useSelector((state) => state.auth);
-  const user = useSelector((state) => state.singleUser);
+  const sessions = useSelector((state) => state.allSessions);
+  const users = useSelector((state) => state.allUsers);
+  const [selectedUserId, setSelectedUserId] = useState('all');
 
   useEffect(() => {
     dispatch(fetchSingleUser(id));
-  }, []);
+    dispatch(fetchSessions());
+    dispatch(fetchUsers());
+  }, [dispatch, id]);
 
+  function calculateSessionsPerWeek(sessions) {
+    const sessionsPerWeekByUserId = {};
 
-  const calculateSessionsPerWeek = () => {
-    if (user.sessions) {
-      const sessionsPerWeek = {
-        twoWeeksAgo: 0,
-        lastWeek: 0,
-        currentWeek: 0,
-        nextWeek: 0,
-      };
+    sessions.forEach((session) => {
+      const { userId, start } = session;
 
       const currentDate = moment().startOf('isoWeek');
       const nextWeek = moment().add(1, 'week').startOf('isoWeek');
 
-      user.sessions.forEach(session => {
-        const sessionStart = moment(session.start);
-        const sessionEnd = moment(session.end);
+      if (!sessionsPerWeekByUserId[userId]) {
+        sessionsPerWeekByUserId[userId] = {
+          twoWeeksAgo: 0,
+          lastWeek: 0,
+          currentWeek: 0,
+          nextWeek: 0,
+        };
+      }
 
-        if (sessionStart.isSameOrAfter(currentDate) && sessionStart.isBefore(nextWeek)) {
-          sessionsPerWeek.currentWeek++;
-        } else if (sessionStart.isBetween(currentDate.clone().subtract(1, 'week'), currentDate, undefined, '()')) {
-          sessionsPerWeek.lastWeek++;
-        } else if (sessionStart.isBetween(currentDate.clone().subtract(2, 'week'), currentDate.clone().subtract(1, 'week'), undefined, '()')) {
-          sessionsPerWeek.twoWeeksAgo++;
-        } else if (sessionStart.isBetween(nextWeek, nextWeek.clone().add(1, 'week'), undefined, '()')) {
-          sessionsPerWeek.nextWeek++;
-        }
-      });
 
-      // sessionsPerWeek.thisWeek = sessionsPerWeek.currentWeek; // Set the value for sessions this week
+      const sessionsPerWeek = sessionsPerWeekByUserId[userId];
+      const sessionStart = moment(start);
 
-      return sessionsPerWeek;
-    }
+      if (sessionStart.isSameOrAfter(currentDate) && sessionStart.isBefore(nextWeek)) {
+        sessionsPerWeek.currentWeek++;
+      } else if (sessionStart.isBetween(currentDate.clone().subtract(1, 'week'), currentDate, undefined, '()')) {
+        sessionsPerWeek.lastWeek++;
+      } else if (sessionStart.isBetween(currentDate.clone().subtract(2, 'week'), currentDate.clone().subtract(1, 'week'), undefined, '()')) {
+        sessionsPerWeek.twoWeeksAgo++;
+      } else if (sessionStart.isBetween(nextWeek, nextWeek.clone().add(1, 'week'), undefined, '()')) {
+        sessionsPerWeek.nextWeek++;
+      }
+    });
 
-    return { currentWeek: 0, lastWeek: 0, twoWeeksAgo: 0, nextWeek: 0,};
+    return sessionsPerWeekByUserId;
+  }
+
+  const handleUserChange = (event) => {
+    setSelectedUserId(event.target.value);
   };
 
 
-  const sessionsPerWeek = calculateSessionsPerWeek();
+  const filteredSessions = selectedUserId === 'all' ? sessions : sessions.filter((session) => session.userId == selectedUserId);
+
+  const sessionsPerWeekByUserId = calculateSessionsPerWeek(filteredSessions);
+
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <div >
-        <div>
-          <h2>Sessions</h2>
-          {user.sessions ? (
-            <>
-              <div>Number of Sessions per Week: {(sessionsPerWeek.thisWeek + sessionsPerWeek.lastWeek + sessionsPerWeek.twoWeeksAgo + sessionsPerWeek.nextWeek)/ 4}</div>
-              <div>Number of Sessions Last Week: {sessionsPerWeek.lastWeek}</div>
-              <div>Number of Sessions Two Weeks Ago: {sessionsPerWeek.twoWeeksAgo}</div>
-              <div>Number of Sessions Next Week: {sessionsPerWeek.nextWeek}</div>
-              <div>Number of Sessions This Week: {sessionsPerWeek.currentWeek}</div>
-              {/* {user.sessions.map((session) => (
-                <div key={session.id}>{session.start}</div>
-              ))} */}
-               <SessionsLineGraph sessions={sessionsPerWeek} />
-            </>
-          ) : (
-            <div>No sessions found.</div>
-          )}
-        </div>
-      </div>
+      <h2>Sessions</h2>
+      <select id="userId" value={selectedUserId} onChange={handleUserChange}>
+//           <option value="all">All</option>
+{users.map((user) => <option key={user.id} value={user.id}>{user.username}</option>)}
+//           {/* Render dropdown options based on available user IDs */}
+//           {/* Replace with your actual user ID data */}
+//         </select>
+      <SessionsLineGraph sessions={sessionsPerWeekByUserId} users={users} />
     </div>
   );
 }
 
 export default MySessions;
-
-
