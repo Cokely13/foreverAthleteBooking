@@ -67,24 +67,26 @@ const AddResult = () => {
   };
 
   return (
+    <div style={{ backgroundColor: 'white', margin: '100px 50px 50px', textAlign: 'center', padding: '20px', border: '1px solid black', borderRadius: "10px",  }}>
+      <h1>Add Result</h1>
     <form onSubmit={handleSubmit}>
       {errorMessage && <p>{errorMessage}</p>}
       {successMessage && <p>{successMessage}</p>}
       <div>
-        <label htmlFor="event">Event:</label>
+        <label htmlFor="event" style={{ marginRight: "10px" }}>Event:</label>
         <select id="event" value={event} onChange={handleEventChange}>
-          <option value="">-- Select Event --</option>
+          <option value=""> -- Select Event --</option>
           <option value="Row">Row</option>
           <option value="SkiErg">SkiErg</option>
           <option value="AssaultBike">AssaultBike</option>
         </select>
       </div>
       <div>
-        <label htmlFor="date">Date:</label>
+        <label htmlFor="date" style={{ marginRight: "10px" }}>Date:  </label>
         <input type="date" id="date" value={date} onChange={handleDateChange} />
       </div>
       <div>
-        <label htmlFor="minutes">Duration:</label>
+        <label htmlFor="minutes" style={{ marginRight: "10px" }}>Duration:  </label>
         <input
           type="number"
           id="minutes"
@@ -107,6 +109,7 @@ const AddResult = () => {
       </div>
       <button type="submit">Add Result</button>
     </form>
+    </div>
   );
 };
 

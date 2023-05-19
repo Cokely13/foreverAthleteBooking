@@ -66,8 +66,8 @@ function MySessions() {
 
 
   return (
-    <div style={{ textAlign: 'center' }}>
-      <h2>Sessions</h2>
+    <div style={{ backgroundColor: 'white', margin: '0 50px 50px', textAlign: 'center', padding: '20px', border: '1px solid black', borderRadius: "10px" }}>
+      {/* <h2>Sessions</h2> */}
       <select id="userId" value={selectedUserId} onChange={handleUserChange}>
 //           <option value="all">All</option>
 {users.map((user) => <option key={user.id} value={user.id}>{user.username}</option>)}

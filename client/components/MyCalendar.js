@@ -40,32 +40,7 @@ const MyCalendar = () => {
   }, [])
 
 
-  // const updatedSessions2 = Sessions2.map(session => {
-  //   let color;
-  //   switch (session.confirmed) {
-  //     case 'pending':
-  //       color = 'yellow';
-  //       break;
-  //     case 'confirmed':
-  //       color = 'green';
-  //       break;
-  //     case 'denied':
-  //       color = 'red';
-  //       break;
-  //     default:
-  //       color = 'gray';
-  //       break;
-  //   }
 
-
-  //   return {
-  //     ...session,
-  //     title: session.user.username,
-  //     start: moment(session.start).toDate(),
-  //     end: moment(session.end).toDate(),
-  //     color: color
-  //   };
-  // });
 
   const updatedSessions2 = Sessions2.map(session => {
     let color;
@@ -264,7 +239,16 @@ const mySessionsDenied = ((updatedSessions2.filter((session) =>
 moment(session.start).isSame(moment(), 'week')).filter((session) => session.confirmed == 'denied')).filter((session) => session.userId == id)).length
 
   return (
-    <div>
+    <div style={{ backgroundColor: 'white', margin: '0 50px 50px', textAlign: 'center', padding: '20px', border: '1px solid black', borderRadius: "10px" }}>
+         {user.admin ? <div style={{ textAlign: 'center', marginTop: '10px' }}>
+      <h3>Total Sessions This Week: {weekSessionsCount}</h3>
+      <h3>Pending Sessions This Week: {pendingSessionCount}</h3>
+      <h3>Confirmed Sessions This Week: {confirmedSessionCount}</h3>
+      <h3>Denied Sessions This Week: {deniedSessionCount}</h3>
+    </div> : <div style={{ textAlign: 'center', marginTop: '10px' }}><h3>Total Sessions This Week: {mySessions}</h3>
+    <h3>Pending Sessions This Week: {mySessionsPending}</h3>
+    <h3>Denied Sessions This Week: {mySessionsDenied}</h3>
+    <h3>Confirmed Sessions This Week: {mySessionsConfirmed}</h3></div>}
       <Calendar
         selectable
         localizer={localizer}
@@ -280,7 +264,7 @@ moment(session.start).isSame(moment(), 'week')).filter((session) => session.conf
         onSelectEvent={handleSelectEvent}
         className="my-4 p-3 border rounded"
       />
-   {user.admin ? <div style={{ textAlign: 'center', marginTop: '10px' }}>
+   {/* {user.admin ? <div style={{ textAlign: 'center', marginTop: '10px' }}>
       <h3>Total Sessions This Week: {weekSessionsCount}</h3>
       <h3>Pending Sessions This Week: {pendingSessionCount}</h3>
       <h3>Confirmed Sessions This Week: {confirmedSessionCount}</h3>
@@ -288,7 +272,7 @@ moment(session.start).isSame(moment(), 'week')).filter((session) => session.conf
     </div> : <div style={{ textAlign: 'center', marginTop: '10px' }}><h3>Total Sessions This Week: {mySessions}</h3>
     <h3>My Pending Sessions This Week: {mySessionsPending}</h3>
     <h3>My Denied Sessions This Week: {mySessionsDenied}</h3>
-    <h3>My Confirmed Sessions This Week: {mySessionsConfirmed}</h3></div>}
+    <h3>My Confirmed Sessions This Week: {mySessionsConfirmed}</h3></div>} */}
       {user.admin && showStatusModal && (
         <Modal
           isOpen={showStatusModal}

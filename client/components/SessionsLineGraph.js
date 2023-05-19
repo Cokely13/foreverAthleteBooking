@@ -1,15 +1,25 @@
+
 import React from 'react';
 import { VictoryLine, VictoryChart, VictoryAxis, VictoryLegend } from 'victory';
+import moment from 'moment';
 
 function SessionsLineGraph({ sessions, users }) {
+  const currentDate = moment().startOf('isoWeek');
+  const twoWeeksAgo = currentDate.clone().subtract(2, 'weeks').format('MMM D');
+  const lastWeek = currentDate.clone().subtract(1, 'week').format('MMM D');
+  const thisWeek = currentDate.format('MMM D');
+  const nextWeek = currentDate.clone().add(1, 'week').format('MMM D');
+
   const datasets = Object.entries(sessions).map(([userId, sessionData], index) => {
     const data = [
-      { x: 'Two Weeks Ago', y: sessionData.twoWeeksAgo || 0 },
-      { x: 'Last Week', y: sessionData.lastWeek || 0 },
-      { x: 'This Week', y: sessionData.currentWeek || 0 },
-      { x: 'Next Week', y: sessionData.nextWeek || 0 },
+      { x: twoWeeksAgo, y: sessionData.twoWeeksAgo || 0 },
+      { x: lastWeek, y: sessionData.lastWeek || 0 },
+      { x: thisWeek, y: sessionData.currentWeek || 0 },
+      { x: nextWeek, y: sessionData.nextWeek || 0 },
     ];
+
     const user = users.find((user) => user.id == userId);
+
 
     return {
       label: `${user?.username || 'Unknown'}`,
@@ -25,18 +35,19 @@ function SessionsLineGraph({ sessions, users }) {
 
   return (
     <div style={{ margin: '50px' }}>
+      <h1>Sessions Per Week</h1>
       <VictoryChart height={250} style={{ margin: '20px auto' }}>
-      <VictoryLegend
-        x={60}
-        y={0}
-        title="Users"
-        centerTitle
-        orientation="horizontal"
-        gutter={20}
-        style={{ border: { stroke: 'black' }, title: { fontSize: 12 },  margintop: '20px' }}
-        data={legendData}
-      />
-        <VictoryAxis tickValues={['Two Weeks Ago', 'Last Week', 'This Week', 'Next Week']} />
+        <VictoryLegend
+          x={60}
+          y={0}
+          // title="Users"
+          centerTitle
+          orientation="horizontal"
+          gutter={20}
+          style={{ border: { stroke: 'black' }, title: { fontSize: 12 } }}
+          data={legendData}
+        />
+        <VictoryAxis tickValues={[twoWeeksAgo, lastWeek, thisWeek, nextWeek]} />
         <VictoryAxis dependentAxis domain={[1, 15]} />
         {datasets.map((dataset) => (
           <VictoryLine key={dataset.label} data={dataset.data} style={{ data: { stroke: dataset.color } }} />
@@ -47,5 +58,3 @@ function SessionsLineGraph({ sessions, users }) {
 }
 
 export default SessionsLineGraph;
-
-
