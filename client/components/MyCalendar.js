@@ -240,6 +240,7 @@ moment(session.start).isSame(moment(), 'week')).filter((session) => session.conf
 
   return (
     <div style={{ backgroundColor: 'white', margin: '0 50px 50px', textAlign: 'center', padding: '20px', border: '1px solid black', borderRadius: "10px" }}>
+      <h1 className="profile border rounded border-5   text-white-50  text-center " style={{ marginBottom: "15px", marginTop: "15px", marginLeft: "40%", marginRight: "40%"  }}>Calendar</h1>
          {user.admin ? <div style={{ textAlign: 'center', marginTop: '10px' }}>
       <h3>Total Sessions This Week: {weekSessionsCount}</h3>
       <h3>Pending Sessions This Week: {pendingSessionCount}</h3>

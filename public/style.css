@@ -164,3 +164,6 @@ form div {
 }
 
 
+.profile{
+  background-color: var(--primary-color);
+}

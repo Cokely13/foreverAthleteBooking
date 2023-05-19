@@ -103,7 +103,7 @@ function Records() {
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <h1 style={{ fontWeight: 'bold' }}>Records</h1>
+      <h1 className="profile border rounded border-5   text-white-50  text-center " style={{ marginBottom: "15px", marginTop: "15px", marginLeft: "40%", marginRight: "40%"  }} >Records</h1>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px' }}>
         <div>
           <h2>Ski Erg</h2>

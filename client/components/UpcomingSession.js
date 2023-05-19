@@ -108,7 +108,7 @@ export default function UpcomingSession() {
     <div style={{ backgroundColor: getBackgroundColor(), textAlign: 'center' }}>
       <div>
         <div className="text-center">
-          <h1>Next Session:</h1>
+          <h1 className="profile border rounded border-5   text-white-50  text-center " style={{ marginBottom: "15px", marginTop: "15px", marginLeft: "40%", marginRight: "40%"  }}>Next Session:</h1>
           {user.sessions ? (
             <div>
               {nextSession ? (

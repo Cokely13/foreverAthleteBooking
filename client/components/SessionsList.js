@@ -94,7 +94,7 @@ const SessionsList = ({ sessions }) => {
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <h2>Upcoming Sessions</h2>
+      <h2 className="profile border rounded border-5   text-white-50  text-center " style={{ marginBottom: "15px", marginTop: "15px", marginLeft: "40%", marginRight: "40%"  }}>Upcoming Sessions</h2>
       <table style={{ margin: '0 auto' }}>
         <thead>
           <tr>
@@ -106,7 +106,7 @@ const SessionsList = ({ sessions }) => {
           {upcomingSessions}
         </tbody>
       </table>
-      <h2>Past Sessions</h2>
+      <h2 className="profile border rounded border-5   text-white-50  text-center " style={{ marginBottom: "15px", marginTop: "15px", marginLeft: "40%", marginRight: "40%"  }}>Past Sessions</h2>
       <table style={{ margin: '0 auto' }}>
         <thead>
           <tr>

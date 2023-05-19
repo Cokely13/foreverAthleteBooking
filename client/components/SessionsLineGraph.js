@@ -35,7 +35,7 @@ function SessionsLineGraph({ sessions, users }) {
 
   return (
     <div style={{ margin: '50px' }}>
-      <h1>Sessions Per Week</h1>
+      <h1 className="profile border rounded border-5   text-white-50  text-center " style={{ marginBottom: "15px", marginTop: "15px", marginLeft: "30%", marginRight: "30%"  }}>Sessions Per Week</h1>
       <VictoryChart height={250} style={{ margin: '20px auto' }}>
         <VictoryLegend
           x={60}
