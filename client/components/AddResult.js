@@ -58,7 +58,7 @@ const AddResult = () => {
     dispatch(createResult(newResult));
 
     // Set the success message and clear the input fields
-    setSuccessMessage('Result added successfully!');
+    setSuccessMessage('Result Added Successfully!');
     setEvent('');
     setDate('');
     setMinutes('');
@@ -67,7 +67,7 @@ const AddResult = () => {
   };
 
   return (
-    <div className="border rounded border-5" style={{ backgroundColor: 'white', margin: '100px 50px 50px', textAlign: 'center', padding: '20px', border: '1px solid black', borderRadius: "10px",  }}>
+    <div className="border rounded border-5" style={{ backgroundColor: 'white', margin: '15px 50px 50px', textAlign: 'center', padding: '20px', border: '1px solid black', borderRadius: "10px",  }}>
 
       <h1 className="profile border rounded border-5   text-white-50  text-center " style={{ marginBottom: "15px", marginTop: "15px", marginLeft: "40%", marginRight: "40%"  }}>Add Result</h1>
     <form onSubmit={handleSubmit}>

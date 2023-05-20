@@ -82,7 +82,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="border rounded border-5" style={{ backgroundColor: 'white', margin: '100px 50px 50px', textAlign: 'center', padding: '20px', border: '1px solid black', borderRadius: "10px" }}>
+    <div className="border rounded border-5" style={{ backgroundColor: 'white', margin: '15px 50px 50px', textAlign: 'center', padding: '20px', border: '1px solid black', borderRadius: "10px" }}>
       <div className="text-center">
         <h1 className="profile border rounded border-5   text-white-50  text-center " style={{ marginBottom: "50px", marginTop: "50px", marginLeft: "auto", marginRight: "auto", width: "25rem" }}>My Profile</h1>
       </div>

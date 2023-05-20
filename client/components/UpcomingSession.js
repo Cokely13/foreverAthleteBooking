@@ -105,16 +105,16 @@ export default function UpcomingSession() {
   };
 
   return (
-    <div style={{ backgroundColor: getBackgroundColor(), textAlign: 'center' }}>
+    <div style={{ textAlign: 'center' }}>
       <div>
         <div className="text-center">
           <h1 className="profile border rounded border-5   text-white-50  text-center " style={{ marginBottom: "15px", marginTop: "15px", marginLeft: "40%", marginRight: "40%"  }}>Next Session:</h1>
           {user.sessions ? (
-            <div>
+            <div className="border rounded border-5 " style={{ backgroundColor: getBackgroundColor(),  marginLeft: "20%", marginRight: "20%" }}>
               {nextSession ? (
                 <>
                   <h1>{new Date(nextSession).toLocaleString('en-US', { dateStyle: 'long', timeStyle: 'short' })}</h1>
-                  <h2>Status: {sessionStatus}</h2>
+                  <h2>{sessionStatus}</h2>
                   {countdown && <h1>Countdown: {countdown}</h1>}
                 </>
               ) : (
