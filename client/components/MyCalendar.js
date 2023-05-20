@@ -239,17 +239,17 @@ const mySessionsDenied = ((updatedSessions2.filter((session) =>
 moment(session.start).isSame(moment(), 'week')).filter((session) => session.confirmed == 'denied')).filter((session) => session.userId == id)).length
 
   return (
-    <div style={{ backgroundColor: 'white', margin: '0 50px 50px', textAlign: 'center', padding: '20px', border: '1px solid black', borderRadius: "10px" }}>
+    <div className="border rounded border-5" style={{ backgroundColor: 'white', margin: '0 50px 50px', textAlign: 'center', padding: '20px', border: '1px solid black', borderRadius: "10px" }}>
       <h1 className="profile border rounded border-5   text-white-50  text-center " style={{ marginBottom: "15px", marginTop: "15px", marginLeft: "40%", marginRight: "40%"  }}>Calendar</h1>
          {user.admin ? <div style={{ textAlign: 'center', marginTop: '10px' }}>
-      <h3>Total Sessions This Week: {weekSessionsCount}</h3>
-      <h3>Pending Sessions This Week: {pendingSessionCount}</h3>
-      <h3>Confirmed Sessions This Week: {confirmedSessionCount}</h3>
-      <h3>Denied Sessions This Week: {deniedSessionCount}</h3>
-    </div> : <div style={{ textAlign: 'center', marginTop: '10px' }}><h3>Total Sessions This Week: {mySessions}</h3>
-    <h3>Pending Sessions This Week: {mySessionsPending}</h3>
-    <h3>Denied Sessions This Week: {mySessionsDenied}</h3>
-    <h3>Confirmed Sessions This Week: {mySessionsConfirmed}</h3></div>}
+      <h4>Total Sessions This Week: {weekSessionsCount}</h4>
+      <h4>Pending Sessions This Week: {pendingSessionCount}</h4>
+      <h4>Confirmed Sessions This Week: {confirmedSessionCount}</h4>
+      <h4>Denied Sessions This Week: {deniedSessionCount}</h4>
+    </div> : <div style={{ textAlign: 'center', marginTop: '10px' }}><h4>Total Sessions This Week: {mySessions}</h4>
+    <h4>Pending Sessions This Week: {mySessionsPending}</h4>
+    <h4>Denied Sessions This Week: {mySessionsDenied}</h4>
+    <h4>Confirmed Sessions This Week: {mySessionsConfirmed}</h4></div>}
       <Calendar
         selectable
         localizer={localizer}
@@ -265,15 +265,6 @@ moment(session.start).isSame(moment(), 'week')).filter((session) => session.conf
         onSelectEvent={handleSelectEvent}
         className="my-4 p-3 border rounded"
       />
-   {/* {user.admin ? <div style={{ textAlign: 'center', marginTop: '10px' }}>
-      <h3>Total Sessions This Week: {weekSessionsCount}</h3>
-      <h3>Pending Sessions This Week: {pendingSessionCount}</h3>
-      <h3>Confirmed Sessions This Week: {confirmedSessionCount}</h3>
-      <h3>Denied Sessions This Week: {deniedSessionCount}</h3>
-    </div> : <div style={{ textAlign: 'center', marginTop: '10px' }}><h3>Total Sessions This Week: {mySessions}</h3>
-    <h3>My Pending Sessions This Week: {mySessionsPending}</h3>
-    <h3>My Denied Sessions This Week: {mySessionsDenied}</h3>
-    <h3>My Confirmed Sessions This Week: {mySessionsConfirmed}</h3></div>} */}
       {user.admin && showStatusModal && (
         <Modal
           isOpen={showStatusModal}

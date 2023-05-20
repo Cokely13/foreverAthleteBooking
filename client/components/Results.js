@@ -28,8 +28,6 @@ function Results() {
   })
   const [selectedUser, setSelectedUser] = useState("All");
 
-
-
   const sorted = results
     .map((result) => {
       // Split duration into minutes and seconds components
@@ -83,7 +81,8 @@ function Results() {
       const date = startDate.toLocaleDateString();
 
       return (
-        <tr key={result.id}>
+
+        <tr style= {{fontSize: "30px"}} key={result.id}>
           <td>{date}</td>
           <td>{result.event}</td>
           <td>{result.duration}</td>
@@ -122,10 +121,10 @@ function Results() {
 
 
   return (
-    <div style={{ backgroundColor: 'white', margin: '100px 50px 50px', textAlign: 'center', padding: '20px', border: '1px solid black', borderRadius: "10px" }}>
-      <h1 className="profile border rounded border-5   text-white-50  text-center " style={{ marginBottom: "15px", marginTop: "15px", marginLeft: "40%", marginRight: "40%"  }}>Results</h1>
+    <div className="border rounded border-5" style={{ backgroundColor: 'white', margin: '100px 50px 50px', textAlign: 'center', padding: '20px', border: '1px solid black', borderRadius: "10px" }}>
+      <h1 className="profile border rounded border-5   text-white-50  text-center " style={{ marginBottom: "55px", marginTop: "15px", marginLeft: "40%", marginRight: "40%"  }}>Results</h1>
       <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '35px' }}>
-        <div style={{ marginRight: '30px' }}>
+        <div style={{ marginRight: '100px' }}>
           <select
             onChange={(event) => setSelectedUser(event.target.value)}
             name="filterUsers"
@@ -150,9 +149,9 @@ function Results() {
       </div>
       {results ?
         <div style={{ paddingLeft: "15px", paddingRight: "15px" }}>
-          <table style={{ margin: "0 auto", borderCollapse: "separate", borderSpacing: "30px" }}>
+          <table className="border rounded border-5"  style={{ margin: "0 auto", borderCollapse: "separate", borderSpacing: "100px" }}>
             <thead>
-              <tr style= {{fontSize: "25px"}}>
+              <tr style= {{fontSize: "60px"}}>
                 <th>Date</th>
                 <th>Event</th>
                 <th>Time</th>

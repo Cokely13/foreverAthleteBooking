@@ -106,16 +106,16 @@ function Records() {
       <h1 className="profile border rounded border-5   text-white-50  text-center " style={{ marginBottom: "15px", marginTop: "15px", marginLeft: "40%", marginRight: "40%"  }} >Records</h1>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px' }}>
         <div>
-          <h2>Ski Erg</h2>
-          {lowestSkiErgResult ? <div>{lowestSkiErgResult.duration}</div> : <div>No result</div>}
+          <h2 className="profile border rounded border-5   text-white-50  text-center " style={{marginLeft: "30%", marginRight: "30%"  }}>Ski Erg</h2>
+          {lowestSkiErgResult ? <h1>{lowestSkiErgResult.duration}</h1> : <h1>No Result</h1>}
         </div>
         <div>
-          <h2>Row</h2>
-          {lowestRowResult ? <div>{lowestRowResult.duration}</div> : <div>No result </div>}
+          <h2 className="profile border rounded border-5   text-white-50  text-center " style={{marginLeft: "30%", marginRight: "30%"  }}>Row</h2>
+          {lowestRowResult ? <h1>{lowestRowResult.duration}</h1> : <h1>No Result </h1>}
         </div>
         <div>
-          <h2>Assault Bike</h2>
-          {lowestAssaultBikeResult ? <div>{lowestAssaultBikeResult.duration}</div> : <div>No result </div>}
+          <h2 className="profile border rounded border-5   text-white-50  text-center " style={{marginLeft: "30%", marginRight: "30%"  }}>Assault Bike</h2>
+          {lowestAssaultBikeResult ? <h1>{lowestAssaultBikeResult.duration}</h1> : <h1>No Result </h1>}
         </div>
       </div>
     </div>

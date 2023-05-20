@@ -13,41 +13,40 @@ function MyResults() {
     dispatch(fetchSingleUser(id));
   }, []);
 
-  console.log('hey', user);
 
   return (
     <div style={{ textAlign: 'center' }}>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px' }}>
         <div>
-          <h2>Ski Erg</h2>
+          <h2 className="profile border rounded border-5   text-white-50  text-center " style={{marginLeft: "30%", marginRight: "30%"  }}>Ski Erg</h2>
           {user.results ? user.results.filter((result) => result.event === 'SkiErg').length ? (
             <div>
               {user.results
                 .filter((result) => result.event === 'SkiErg')
                 .map((result) => (
-                  <div key={result.id}>{result.duration}</div>
+                  <h1 key={result.id}>{result.duration}</h1>
                 ))}
             </div>
           ) : (
-            <div>No Results</div>
+            <h1>No Result</h1>
           ) : <div></div>}
         </div>
         <div>
-          <h2>Row</h2>
+          <h2 className="profile border rounded border-5   text-white-50  text-center " style={{marginLeft: "30%", marginRight: "30%"  }}>Row</h2>
           {user.results ? user.results.filter((result) => result.event === 'Row').length ? (
             <div>
               {user.results
                 .filter((result) => result.event === 'Row')
                 .map((result) => (
-                  <div key={result.id}>{result.duration}</div>
+                  <h1 key={result.id}>{result.duration}</h1>
                 ))}
             </div>
           ) : (
-            <div>No Results</div>
+            <h1>No Result</h1>
           ) : <div></div>}
         </div>
         <div>
-          <h2>Assault Bike</h2>
+          <h2 className="profile border rounded border-5   text-white-50  text-center " style={{marginLeft: "30%", marginRight: "30%"  }}>Assault Bike</h2>
           {user.results ? user.results.filter((result) => result.event === 'AssaultBike').length ? (
             <div>
               {user.results
@@ -57,7 +56,7 @@ function MyResults() {
                 ))}
             </div>
           ) : (
-            <div>No Results</div>
+            <h1>No Result</h1>
           ) : <div></div>}
         </div>
       </div>
