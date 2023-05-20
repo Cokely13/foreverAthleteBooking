@@ -132,31 +132,6 @@ form div {
   font-weight: bold !important;
 }
 
-/* Add a thicker border to the entire calendar grid */
-/* .rbc-month-view {
-  border: 10px solid black!important;
-} */
-
-/* Add a thicker border to the day cells
-.rbc-month-view .rbc-day-bg {
-  border: 10px solid black !important;
-} */
-
-/* .rbc-time-header.rbc-time-header-gutter {
-  border-color: #333 !important;
-  border-width: 20px !important;
-} */
-
-
-/* .rbc-timeslot-group {
-  border-color: black;
-  border-width: 20px;
-} */
-
-/* .rbc-timeslot-group {
-  border-color: black !important;
-  border-width: 2px !important;
-} */
 
 .rbc-time-view,
 .rbc-day-view {
