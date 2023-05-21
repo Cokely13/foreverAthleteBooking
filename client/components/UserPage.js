@@ -21,12 +21,16 @@ export default function UserDetail() {
 
 
   const user = useSelector((state) => state.singleUser)
-  console.log("user", user.sessions)
 
-  const handleCLick = (event) => {
+  const handleClick = (event) => {
     event.preventDefault()
     setStatusView(1)
   }
+
+  const handleClick2 = (event) => {
+    event.preventDefault();
+    setStatusView(0);
+  };
 
 
   return (
@@ -38,11 +42,20 @@ export default function UserDetail() {
     <div className="text-center">
     {user.sessions ?<div># of Sessions: {user.sessions.length} </div> : <div>check</div>}
     </div>
-    <button onClick={handleCLick}>View Sessions</button>
+    {/* <button onClick={handleCLick}>View Sessions</button>
     {statusView == 1 ? <div><div>Sessions</div>
     <SessionsList sessions={user.sessions}/>
     </div>
-     : <div></div>}
+     : <div></div>} */}
+       <div className="d-flex justify-content-center" style={{ marginBottom: "50px",marginTop: "50px" }}>
+      {statusView == 0 ? <button onClick={handleClick}>View Sessions</button> : <button onClick={handleClick2}>Hide Sessions</button>}
+      </div>
+      {statusView == 1 && (
+        <div className="text-center">
+          {/* <div>Sessions</div> */}
+          <SessionsList sessions={user.sessions} />
+        </div>
+      )}
     </div>
 
     </div>

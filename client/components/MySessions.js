@@ -8,7 +8,7 @@ import { fetchUsers } from '../store/allUsersStore';
 
 function MySessions() {
   const dispatch = useDispatch();
-  const { id } = useSelector((state) => state.auth);
+  const { id, admin } = useSelector((state) => state.auth);
   const sessions = useSelector((state) => state.allSessions);
   const users = useSelector((state) => state.allUsers);
   const [selectedUserId, setSelectedUserId] = useState('all');
@@ -60,21 +60,21 @@ function MySessions() {
   };
 
 
-  const filteredSessions = selectedUserId === 'all' ? sessions : sessions.filter((session) => session.userId == selectedUserId);
+  const filteredSessions = selectedUserId === 'all'? sessions : sessions.filter((session) => session.userId == selectedUserId);
 
-  const sessionsPerWeekByUserId = calculateSessionsPerWeek(filteredSessions);
+  const sessionsPerWeekByUserId = admin ? calculateSessionsPerWeek(filteredSessions) : calculateSessionsPerWeek(sessions.filter((session) => session.userId == id))
 
 
   return (
     <div className="border rounded border-5" style={{ backgroundColor: 'white', margin: '0 50px 50px', textAlign: 'center', padding: '20px', border: '1px solid black', borderRadius: "10px" }}>
       {/* <h2>Sessions</h2> */}
-      <select id="userId" value={selectedUserId} onChange={handleUserChange}>
+      {admin ? <select id="userId" value={selectedUserId} onChange={handleUserChange}>
 //           <option value="all">All</option>
 {users.map((user) => <option key={user.id} value={user.id}>{user.username}</option>)}
 //           {/* Render dropdown options based on available user IDs */}
 //           {/* Replace with your actual user ID data */}
-//         </select>
-      <SessionsLineGraph sessions={sessionsPerWeekByUserId} users={users} />
+//         </select> : <div></div>}
+     <SessionsLineGraph sessions={sessionsPerWeekByUserId} users={users} />
     </div>
   );
 }

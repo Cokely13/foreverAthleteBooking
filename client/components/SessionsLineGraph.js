@@ -1,14 +1,20 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { VictoryLine, VictoryChart, VictoryAxis, VictoryLegend } from 'victory';
 import moment from 'moment';
+import MySessions from './MySessions';
 
 function SessionsLineGraph({ sessions, users }) {
+  const { id, admin } = useSelector((state) => state.auth);
   const currentDate = moment().startOf('isoWeek');
   const twoWeeksAgo = currentDate.clone().subtract(2, 'weeks').format('MMM D');
   const lastWeek = currentDate.clone().subtract(1, 'week').format('MMM D');
   const thisWeek = currentDate.format('MMM D');
   const nextWeek = currentDate.clone().add(1, 'week').format('MMM D');
+
+  // const mySessions = sessions.filter((session)=> session.id == id)
+
 
   const datasets = Object.entries(sessions).map(([userId, sessionData], index) => {
     const data = [

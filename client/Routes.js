@@ -30,7 +30,7 @@ class Routes extends Component {
   render() {
     const {isLoggedIn} = this.props
     const {isAdmin} = this.props
-   console.log("hey", isAdmin)
+
     return (
       <div>
         {isLoggedIn ?

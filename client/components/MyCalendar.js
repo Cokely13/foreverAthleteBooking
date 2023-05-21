@@ -71,6 +71,8 @@ const MyCalendar = () => {
   });
 
 
+
+
   useEffect(() => {
     dispatch(fetchSessions())
   }, [reload])
@@ -212,8 +214,6 @@ const handleSessionSubmit = (event) => {
   const weekSessionsCount = updatedSessions2.filter((session) =>
   moment(session.start).isSame(moment(), 'week')
 ).length;
-
-
 
 const pendingSessionCount = (updatedSessions2.filter((session) =>
 moment(session.start).isSame(moment(), 'week')).filter((session) => session.confirmed == 'pending')).length
