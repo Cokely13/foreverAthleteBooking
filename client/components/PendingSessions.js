@@ -1,68 +1,3 @@
-// import React, { useEffect, useState } from 'react';
-// import { Link, useParams } from 'react-router-dom';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { fetchSessions, deleteSession } from '../store/allSessionsStore';
-// import { updateSingleSession } from '../store/singleSessionStore';
-
-// export default function PendingSessions() {
-//   const dispatch = useDispatch();
-//   const { id } = useSelector((state) => state.auth);
-//   const { userId } = useParams();
-//   const [statusView, setStatusView] = useState();
-
-//   useEffect(() => {
-//     dispatch(fetchSessions());
-//   }, [dispatch]);
-
-//   const sessions = useSelector((state) => state.allSessions);
-
-//   const handleStatusChange = (session, newValue) => {
-//     session.confirm = newValue
-//     dispatch(updateSingleSession(session.Id, { confirmed: newValue }));
-//   };
-
-//   const handleDelete = (sessionId) => {
-//     dispatch(deleteSession(sessionId));
-//   };
-
-//   return (
-//     <div>
-//       <div className="text-center">
-//         {sessions
-//           ? sessions
-//               .filter((session) => session.confirmed === 'pending')
-//               .map((session) => {
-//                 const startDate = new Date(session.start);
-
-//                 // Format the date and time strings
-//                 const dateTime = startDate.toLocaleString();
-
-//                 return (
-//                   <tr key={session.id}>
-//                     <td>{dateTime}</td>
-//                     <td>{session.user.username}</td>
-//                     <td>
-//                       <select
-//                         value={session.confirmed}
-//                         onChange={(e) => handleStatusChange(session, e.target.value)}
-//                       >
-//                         <option value="pending">Pending</option>
-//                         <option value="confirmed">Confirmed</option>
-//                         <option value="denied">Denied</option>
-//                       </select>
-//                     </td>
-//                     <td>
-//                       <button onClick={() => handleDelete(session.id)}>Delete</button>
-//                     </td>
-//                   </tr>
-//                 );
-//               })
-//           : <div></div>}
-//       </div>
-//     </div>
-//   );
-// }
-
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -75,6 +10,7 @@ export default function PendingSessions() {
   const { userId } = useParams();
   const [statusView, setStatusView] = useState();
   const [usernameFilter, setUsernameFilter] = useState('');
+  const [selectedSession, setSelectedSession] = useState(null);
 
   useEffect(() => {
     dispatch(fetchSessions());
@@ -83,12 +19,28 @@ export default function PendingSessions() {
   const sessions = useSelector((state) => state.allSessions);
 
   const handleStatusChange = (session, newValue) => {
-    session.confirm = newValue;
-    dispatch(updateSingleSession(session.Id, { confirmed: newValue }));
+    setSelectedSession(session);
+    console.log('select', session);
+    console.log('value', newValue);
   };
 
-  const handleDelete = (sessionId) => {
-    dispatch(deleteSession(sessionId));
+  const handleUpdateStatus = () => {
+    if (selectedSession) {
+      dispatch(updateSingleSession(selectedSession.Id, { confirmed: selectedSession.confirm }))
+        .then(() => window.location.reload());
+    }
+  };
+
+  const handleConfirmed = (session) => {
+    session.confirmed = 'confirmed';
+    dispatch(updateSingleSession(session))
+      .then(() => window.location.reload());
+  };
+
+  const handleDenied = (session) => {
+    session.confirmed = 'denied';
+    dispatch(updateSingleSession(session))
+      .then(() => window.location.reload());
   };
 
   const filteredSessions = sessions
@@ -101,6 +53,10 @@ export default function PendingSessions() {
 
   const handleUsernameFilterChange = (e) => {
     setUsernameFilter(e.target.value);
+  };
+
+  const handleSessionSelection = (session) => {
+    setSelectedSession(session);
   };
 
   const filteredAndSortedSessions = sortedSessions.filter((session) =>
@@ -118,28 +74,56 @@ export default function PendingSessions() {
             </option>
           ))}
         </select>
-        <table>
+        <table style={{ margin: '0 auto' }}>
           <tbody>
             {filteredAndSortedSessions.map((session) => {
               const startDate = new Date(session.start);
-              const dateTime = startDate.toLocaleString();
+              const dateTime = startDate.toLocaleString('en-US', {
+                month: 'numeric',
+                day: 'numeric',
+                year: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true,
+              });
 
               return (
-                <tr key={session.id}>
-                  <td>{dateTime}</td>
-                  <td>{session.user.username}</td>
-                  <td>
-                    <select
-                      value={session.confirmed}
-                      onChange={(e) => handleStatusChange(session, e.target.value)}
+                <tr style={{ fontSize: '25px' }} key={session.id}>
+                  <td style={{ paddingRight: '20px' }}>{dateTime}</td>
+                  <td style={{ paddingRight: '20px' }}>
+                    <Link to={`/clients/${session.user.id}`}>{session.user.username}</Link>
+                  </td>
+                  <td style={{ paddingRight: '20px' }}>
+                    <button
+                      style={{
+                        padding: '5px 10px',
+                        backgroundColor: 'green',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        border: '2px solid black',
+                      }}
+                      onClick={() => handleConfirmed(session)}
                     >
-                      <option value="pending">Pending</option>
-                      <option value="confirmed">Confirmed</option>
-                      <option value="denied">Denied</option>
-                    </select>
+                      Confirm
+                    </button>
                   </td>
                   <td>
-                    <button onClick={() => handleDelete(session.id)}>Delete</button>
+                    <button
+                      style={{
+                        padding: '5px 10px',
+                        backgroundColor: '#FF0000',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        border: '2px solid black',
+                      }}
+                      onClick={() => handleDenied(session)}
+                    >
+                      Deny
+                    </button>
                   </td>
                 </tr>
               );
@@ -150,4 +134,3 @@ export default function PendingSessions() {
     </div>
   );
 }
-

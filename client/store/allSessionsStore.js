@@ -45,7 +45,7 @@ export const deleteSession = (id, history) => {
   return async (dispatch) => {
     const { data: session } = await Axios.delete(`/api/sessions/${id}`);
     dispatch(_deleteSession(session));
-    history.push("/sessions");
+    // history.push("/sessions");
   };
 };
 

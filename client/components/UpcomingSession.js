@@ -51,7 +51,6 @@ export default function UpcomingSession() {
   const user = useSelector((state) => state.singleUser);
   const sessions = useSelector((state) => state.allSessions)
 
-  console.log("sessions", sessions)
 
   useEffect(() => {
     if (user.sessions && user.sessions.length > 0) {
@@ -145,7 +144,6 @@ export default function UpcomingSession() {
     window.location.reload(); // Reload the page
   };
 
-  console.log('status', sessionStatus);
 
   const getBackgroundColor = () => {
     if (sessionStatus === 'pending') {
