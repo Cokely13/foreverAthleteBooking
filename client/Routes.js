@@ -16,6 +16,7 @@ import Profile from './components/Profile';
 import ConfirmSessions from './components/ConfirmSessions';
 import Records from './components/Records';
 import MySessions from './components/MySessions';
+import PendingSessions from './components/PendingSessions';
 import {me} from './store'
 
 
@@ -48,6 +49,7 @@ class Routes extends Component {
             <Route exact path="/mycalendar" component={MyCalendar} />
             <Route exact path="/test" component={BookingCalendar} />
             <Route exact path="/sessions" component={MySessions} />
+            <Route exact path="/pending" component={PendingSessions} />
             <Redirect to="/home" />
           </Switch>
         ) : <Switch>

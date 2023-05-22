@@ -114,7 +114,7 @@ function Records() {
           {lowestRowResult ? <h1>{lowestRowResult.duration}</h1> : <h1>No Result </h1>}
         </div>
         <div>
-          <h2 className="profile border rounded border-5   text-white-50  text-center " style={{marginLeft: "30%", marginRight: "30%"  }}>Assault Bike</h2>
+          <h2 className="profile border rounded border-5   text-white-50  text-center " style={{marginLeft: "25%", marginRight: "25%"  }}>Assault Bike</h2>
           {lowestAssaultBikeResult ? <h1>{lowestAssaultBikeResult.duration}</h1> : <h1>No Result </h1>}
         </div>
       </div>

@@ -42,8 +42,8 @@ function Results() {
   const renderResultButtons = (result) => {
     if (admin) {
       return (
-        <td>
-          <button
+        <td >
+          <button style={ {marginRight: "10px"} }
             onClick={() => {
               setEditResult(result);
               setShowModal(true);
@@ -174,7 +174,7 @@ function Results() {
                     const date = startDate.toLocaleDateString();
 
                     return (
-                      <tr key={result.id}>
+                      <tr style= {{fontSize: "40px"}}>
                         <td>{date}</td>
                         <td>{result.event}</td>
                         <td>{result.duration}</td>

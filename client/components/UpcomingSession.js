@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSingleUser } from '../store/singleUserStore';
+import {fetchSessions} from '../store/allSessionsStore'
 import Modal from 'react-modal';
 
 // CSS styles for the modal
@@ -30,9 +31,12 @@ const modalStyles = {
 
 export default function UpcomingSession() {
   const dispatch = useDispatch();
-  const { id } = useSelector((state) => state.auth);
+  const { id, admin } = useSelector((state) => state.auth);
   const [nextSession, setNextSession] = useState(null);
+  const [nextClientSession, setNextClientSession] = useState(null);
+  const [nextClientName, setNextClientName] = useState(null);
   const [countdown, setCountdown] = useState(null);
+  const [clientCountdown, setClientCountdown] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [sessionStatus, setSessionStatus] = useState(null);
 
@@ -40,7 +44,14 @@ export default function UpcomingSession() {
     dispatch(fetchSingleUser(id));
   }, [dispatch, id]);
 
+  useEffect(() => {
+    dispatch(fetchSessions());
+  }, [dispatch]);
+
   const user = useSelector((state) => state.singleUser);
+  const sessions = useSelector((state) => state.allSessions)
+
+  console.log("sessions", sessions)
 
   useEffect(() => {
     if (user.sessions && user.sessions.length > 0) {
@@ -54,6 +65,24 @@ export default function UpcomingSession() {
 
       if (sortedSessions.length > 0) {
         setNextSession(sortedSessions[0].start);
+        setSessionStatus(sortedSessions[0].confirmed);
+      }
+    }
+  }, [user.sessions]);
+
+  useEffect(() => {
+    if (sessions && sessions.length > 0) {
+      const currentDate = new Date();
+      const sessionsAfterCurrentDate = sessions.filter(
+        (session) => new Date(session.start) > currentDate
+      );
+      const sortedSessions = sessionsAfterCurrentDate.sort(
+        (a, b) => new Date(a.start) - new Date(b.start)
+      );
+
+      if (sortedSessions.length > 0) {
+        setNextClientSession(sortedSessions[0].start);
+        setNextClientName(sortedSessions[0].user.username);
         setSessionStatus(sortedSessions[0].confirmed);
       }
     }
@@ -85,6 +114,32 @@ export default function UpcomingSession() {
     }
   }, [nextSession]);
 
+  useEffect(() => {
+    if (nextClientSession) {
+      const intervalId = setInterval(() => {
+        const currentTime = new Date();
+        const targetTime = new Date(nextClientSession);
+        const timeDifference = targetTime.getTime() - currentTime.getTime();
+
+        if (timeDifference > 0) {
+          const seconds = Math.floor((timeDifference / 1000) % 60);
+          const minutes = Math.floor((timeDifference / 1000 / 60) % 60);
+          const hours = Math.floor((timeDifference / (1000 * 60 * 60)) % 24);
+          const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+          setClientCountdown(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+        } else {
+          setClientCountdown(null);
+          setShowModal(true);
+        }
+      }, 1000);
+
+      return () => {
+        clearInterval(intervalId);
+      };
+    }
+  }, [nextClientSession]);
+
   const handleModalClose = () => {
     setShowModal(false);
     window.location.reload(); // Reload the page
@@ -106,7 +161,27 @@ export default function UpcomingSession() {
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <div>
+     {admin ? <div>
+        <div className="text-center">
+          <h1 className="profile border rounded border-5   text-white-50  text-center " style={{ marginBottom: "15px", marginTop: "15px", marginLeft: "40%", marginRight: "40%"  }}>Next Session:</h1>
+          {user.sessions ? (
+            <div className="border rounded border-5 " style={{ backgroundColor: getBackgroundColor(),  marginLeft: "20%", marginRight: "20%" }}>
+              {nextClientSession ? (
+                <>
+                  <h1>{new Date(nextClientSession).toLocaleString('en-US', { dateStyle: 'long', timeStyle: 'short' })}</h1>
+                  <h2>{sessionStatus}</h2>
+                  {clientCountdown && <h1>Countdown: {clientCountdown}</h1>}
+                  <h2>With: {nextClientName}</h2>
+                </>
+              ) : (
+                <div>No Session Scheduled</div>
+              )}
+            </div>
+          ) : (
+            <div>check</div>
+          )}
+        </div>
+      </div>:  <div>
         <div className="text-center">
           <h1 className="profile border rounded border-5   text-white-50  text-center " style={{ marginBottom: "15px", marginTop: "15px", marginLeft: "40%", marginRight: "40%"  }}>Next Session:</h1>
           {user.sessions ? (
@@ -125,7 +200,7 @@ export default function UpcomingSession() {
             <div>check</div>
           )}
         </div>
-      </div>
+      </div> }
 
       <Modal isOpen={showModal} style={modalStyles} ariaHideApp={false}>
         <h2>SESSION NOW!</h2>
