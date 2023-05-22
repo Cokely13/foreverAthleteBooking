@@ -62,7 +62,7 @@ function MyResults() {
               {sortedResults
                 .filter((result) => result.event === 'AssaultBike')
                 .map((result) => (
-                  <div key={result.id}>{result.duration}</div>
+                  <h1 key={result.id}>{result.duration}</h1>
                 ))}
             </div>
           ) : (
