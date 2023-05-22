@@ -224,7 +224,6 @@ moment(session.start).isSame(moment(), 'week')).filter((session) => session.conf
 const confirmedSessionCount = (updatedSessions2.filter((session) =>
 moment(session.start).isSame(moment(), 'week')).filter((session) => session.confirmed == 'confirmed')).length
 
-console.log("pending", updatedSessions2)
 
 const mySessions = (updatedSessions2.filter((session) =>
 moment(session.start).isSame(moment(), 'week')).filter((session) => session.userId == id)).length

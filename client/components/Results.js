@@ -43,7 +43,16 @@ function Results() {
     if (admin) {
       return (
         <td >
-          <button style={ {marginRight: "10px"} }
+          <button  style={{
+                        padding: '5px 10px',
+                        backgroundColor: 'gray',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        border: '2px solid black',
+                        marginRight: "10px"
+                      }}
             onClick={() => {
               setEditResult(result);
               setShowModal(true);
@@ -51,7 +60,16 @@ function Results() {
           >
             Edit
           </button>
-          <button
+          <button  style={{
+                        padding: '5px 10px',
+                        backgroundColor: 'red',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        border: '2px solid black',
+                        marginRight: "10px"
+                      }}
             onClick={() => {
               dispatch(deleteResult(result.id));
             }}
@@ -71,7 +89,6 @@ function Results() {
         ? sorted
         : sorted.filter((result) => result.userId == selectedUser);
 
-        console.log("filterer", filteredResults)
 
     return filteredResults.map((result) => {
       // Convert the start property to a date object

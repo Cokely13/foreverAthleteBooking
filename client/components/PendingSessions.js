@@ -65,7 +65,7 @@ export default function PendingSessions() {
 
   return (
     <div>
-      <div className="text-center">
+     {filteredAndSortedSessions.length ? <div className="text-center">
         <select value={usernameFilter} onChange={handleUsernameFilterChange}>
           <option value="">All</option>
           {uniqueUsernames.map((username) => (
@@ -130,7 +130,7 @@ export default function PendingSessions() {
             })}
           </tbody>
         </table>
-      </div>
+      </div> : <h1> No Pending Sessions </h1>}
     </div>
   );
 }
