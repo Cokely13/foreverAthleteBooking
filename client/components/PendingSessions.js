@@ -11,6 +11,7 @@ export default function PendingSessions() {
   const [statusView, setStatusView] = useState();
   const [usernameFilter, setUsernameFilter] = useState('');
   const [selectedSession, setSelectedSession] = useState(null);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     dispatch(fetchSessions());
@@ -27,7 +28,7 @@ export default function PendingSessions() {
   const handleUpdateStatus = () => {
     if (selectedSession) {
       dispatch(updateSingleSession(selectedSession.Id, { confirmed: selectedSession.confirm }))
-        .then(() => window.location.reload());
+        .then(setCount(count + 1));
     }
   };
 
